@@ -1,0 +1,149 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASTRANET_Hidden_Sector", "ASTRANET_Hidden_Sector.csproj", "{7E0C1FD1-D881-48FC-9D8C-99DA498206D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+	ProjectSection(SolutionItems) = preProject
+		Game.cs = Game.cs
+		GameStateManager.cs = GameStateManager.cs
+		InputHandler.cs = InputHandler.cs
+		UIManager.cs = UIManager.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screens", "Screens", "{194EF40E-09CB-41CB-BC9B-B90F883501FD}"
+	ProjectSection(SolutionItems) = preProject
+		CharacterCreationScreen.cs = CharacterCreationScreen.cs
+		CharacterScreen.cs = CharacterScreen.cs
+		ConfirmScreen.cs = ConfirmScreen.cs
+		DialogueScreen.cs = DialogueScreen.cs
+		GalaxyMapScreen.cs = GalaxyMapScreen.cs
+		GameScreen.cs = GameScreen.cs
+		GlobalMapScreen.cs = GlobalMapScreen.cs
+		InventoryScreen.cs = InventoryScreen.cs
+		LoadGameMenuScreen.cs = LoadGameMenuScreen.cs
+		LocalMapScreen.cs = LocalMapScreen.cs
+		MainMenuScreen.cs = MainMenuScreen.cs
+		MessageScreen.cs = MessageScreen.cs
+		PauseMenuScreen.cs = PauseMenuScreen.cs
+		QuestLogScreen.cs = QuestLogScreen.cs
+		ReputationScreen.cs = ReputationScreen.cs
+		ShipScreen.cs = ShipScreen.cs
+		ShopScreen.cs = ShopScreen.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{E857A5F4-F74C-48AD-9E92-2C5BB0DB3282}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities", "Entities", "{F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}"
+	ProjectSection(SolutionItems) = preProject
+		Background.cs = Background.cs
+		Faction.cs = Faction.cs
+		Inventory.cs = Inventory.cs
+		Item.cs = Item.cs
+		Player.cs = Player.cs
+		StationInventory.cs = StationInventory.cs
+		TradeGood.cs = TradeGood.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "World", "World", "{FDB44F45-8E66-45FA-BD17-85985EF27E01}"
+	ProjectSection(SolutionItems) = preProject
+		DynamicEntity.cs = DynamicEntity.cs
+		LocalMap.cs = LocalMap.cs
+		LocalMapCell.cs = LocalMapCell.cs
+		LocalMapGenerator.cs = LocalMapGenerator.cs
+		Location.cs = Location.cs
+		MapEntity.cs = MapEntity.cs
+		Sector.cs = Sector.cs
+		StarSystem.cs = StarSystem.cs
+		StaticEntity.cs = StaticEntity.cs
+		SystemType.cs = SystemType.cs
+		WorldGenerator.cs = WorldGenerator.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Combat", "Combat", "{83DBE729-DB1D-49D5-A9BD-BE6C825F4964}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{6CCA185F-1A8F-44F1-BDAA-1272E174C1FC}"
+	ProjectSection(SolutionItems) = preProject
+		SaveData.cs = SaveData.cs
+		SavedWorld.cs = SavedWorld.cs
+		SaveLoadManager.cs = SaveLoadManager.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Audio", "Audio", "{F2439D2F-8915-4D55-B9C6-4976858E9E02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{20E151EC-D295-432B-98AF-0C71AABF07D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dialogues", "Dialogues", "{76C0DA4D-FC87-4FBF-914D-CCD2D457810E}"
+	ProjectSection(SolutionItems) = preProject
+		Dialogue.cs = Dialogue.cs
+		DialogueAction.cs = DialogueAction.cs
+		DialogueChoice.cs = DialogueChoice.cs
+		DialogueCondition.cs = DialogueCondition.cs
+		DialogueManager.cs = DialogueManager.cs
+		DialogueNode.cs = DialogueNode.cs
+		trader.josn = trader.josn
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quests", "Quests", "{7AA6FFA0-4A61-4406-8C84-1832B1662020}"
+	ProjectSection(SolutionItems) = preProject
+		Quest.cs = Quest.cs
+		QuestData.cs = QuestData.cs
+		QuestManager.cs = QuestManager.cs
+		QuestObjective.cs = QuestObjective.cs
+		QuestObjectiveData.cs = QuestObjectiveData.cs
+		QuestReward.cs = QuestReward.cs
+		QuestRewardData.cs = QuestRewardData.cs
+		SavedQuest.cs = SavedQuest.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{0EE54F95-7F81-4465-8220-1AA64EB60681}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{17E180A7-861D-43BC-AF0A-A74F76BFD166}"
+	ProjectSection(SolutionItems) = preProject
+		DialogueActionData.cs = DialogueActionData.cs
+		DialogueChoiceData.cs = DialogueChoiceData.cs
+		DialogueConditionData.cs = DialogueConditionData.cs
+		DialogueData.cs = DialogueData.cs
+		DialogueLoader.cs = DialogueLoader.cs
+		DialogueNodeData.cs = DialogueNodeData.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Faction", "Faction", "{FB3C8A5F-A5A0-4520-96CA-63595BF6DC8B}"
+	ProjectSection(SolutionItems) = preProject
+		FactionManager.cs = FactionManager.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trade", "Trade", "{92C14D15-1D68-43DA-8913-6073B307D1B1}"
+	ProjectSection(SolutionItems) = preProject
+		TradeGoodData.cs = TradeGoodData.cs
+		TradeGoodsLoader.cs = TradeGoodsLoader.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E0C1FD1-D881-48FC-9D8C-99DA498206D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E0C1FD1-D881-48FC-9D8C-99DA498206D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E0C1FD1-D881-48FC-9D8C-99DA498206D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E0C1FD1-D881-48FC-9D8C-99DA498206D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{76C0DA4D-FC87-4FBF-914D-CCD2D457810E} = {6CCA185F-1A8F-44F1-BDAA-1272E174C1FC}
+		{7AA6FFA0-4A61-4406-8C84-1832B1662020} = {6CCA185F-1A8F-44F1-BDAA-1272E174C1FC}
+		{0EE54F95-7F81-4465-8220-1AA64EB60681} = {6CCA185F-1A8F-44F1-BDAA-1272E174C1FC}
+		{17E180A7-861D-43BC-AF0A-A74F76BFD166} = {76C0DA4D-FC87-4FBF-914D-CCD2D457810E}
+		{FB3C8A5F-A5A0-4520-96CA-63595BF6DC8B} = {F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}
+		{92C14D15-1D68-43DA-8913-6073B307D1B1} = {F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {108577BE-3349-47A8-9592-9EEF1FDEFBB4}
+	EndGlobalSection
+EndGlobal

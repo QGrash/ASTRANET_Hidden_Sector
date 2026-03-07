@@ -1,0 +1,11 @@
+{
+  "Id": "metal_alloy",
+  "Name": "Сплав металла",
+  "Description": "Используется для ремонта и крафта.",
+  "Category": "Resource",
+  "Weight": 5.0,
+  "BasePrice": 30,
+  "IsLegal": true,
+  "HealAmount": 0,
+  "ModuleId": ""
+}

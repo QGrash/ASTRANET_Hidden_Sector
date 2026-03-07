@@ -1,0 +1,11 @@
+{
+  "Id": "stim_basic",
+  "Name": "Стимулятор",
+  "Description": "Временно повышает рефлексы. (В бою не реализовано)",
+  "Category": "Consumable",
+  "Weight": 0.1,
+  "BasePrice": 40,
+  "IsLegal": true,
+  "HealAmount": 10,
+  "ModuleId": ""
+}

@@ -1,0 +1,11 @@
+{
+  "Id": "laser_pistol",
+  "Name": "Лазерный пистолет",
+  "Description": "Легкое лазерное оружие для самообороны.",
+  "Category": "Weapon",
+  "Weight": 1.2,
+  "BasePrice": 200,
+  "IsLegal": true,
+  "HealAmount": 0,
+  "ModuleId": ""
+}

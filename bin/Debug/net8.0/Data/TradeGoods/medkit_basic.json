@@ -1,0 +1,11 @@
+{
+  "Id": "medkit_basic",
+  "Name": "Медицинский набор",
+  "Description": "Стандартный армейский медпакет, восстанавливает 30 HP.",
+  "Category": "Consumable",
+  "Weight": 0.1,
+  "BasePrice": 50,
+  "IsLegal": true,
+  "HealAmount": 30,
+  "ModuleId": ""
+}

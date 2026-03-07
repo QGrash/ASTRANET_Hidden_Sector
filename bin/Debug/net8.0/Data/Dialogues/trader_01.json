@@ -1,0 +1,49 @@
+{
+  "Id": "trader_01",
+  "NpcName": "Торговец",
+  "StartNodeId": "greeting",
+  "Nodes": {
+    "greeting": {
+      "Id": "greeting",
+      "NpcText": "Приветствую, путник! Чем могу помочь?",
+      "Choices": [
+        {
+          "ChoiceText": "Что у вас есть?",
+          "NextNodeId": "trade",
+          "Conditions": [],
+          "Actions": []
+        },
+        {
+          "ChoiceText": "Пока",
+          "NextNodeId": "",
+          "Conditions": [],
+          "Actions": []
+        }
+      ]
+    },
+    "trade": {
+      "Id": "trade",
+      "NpcText": "У меня есть товары. Что хотите?",
+      "Choices": [
+        {
+          "ChoiceText": "Посмотреть",
+          "NextNodeId": "",
+          "Conditions": [],
+          "Actions": [
+            {
+              "Type": "openShop",
+              "Target": "trader_01",
+              "Value": 0
+            }
+          ]
+        },
+        {
+          "ChoiceText": "Вернуться",
+          "NextNodeId": "greeting",
+          "Conditions": [],
+          "Actions": []
+        }
+      ]
+    }
+  }
+}
