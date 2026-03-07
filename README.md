@@ -3,9 +3,11 @@ Console SCI-FI game pet project
 
 🚀 Релиз: ASTRANET Hidden Sector – Alpha 1 (v0.5.0)
 
-<img https://img.shields.io/badge/.NET-8.0-blueviolet />
-<img https://img.shields.io/badge/License-MIT-green />
-<img https://img.shields.io/badge/build-passing-brightgreen />
+<img src=https://img.shields.io/badge/.NET-8.0-blueviolet />
+
+<img src=https://img.shields.io/badge/License-MIT-green />
+
+<img src=https://img.shields.io/badge/build-passing-brightgreen />
 
 ASTRANET: Hidden Sector - это ретро консольная RPG/roguelike вдохновлённая FTL, с фокусом на развитие персонажа и корабля. Действие разворачивается в далёком будущем, где вы - капитан разведывательного фрегата флота Солнечной Федерации.
 
