@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ASTRANET_Hidden_Sector.Core;
-using ASTRANET_Hidden_Sector.Entities; // добавлено для StationInventory
+using ASTRANET_Hidden_Sector.Entities;
 using ASTRANET_Hidden_Sector.Entities.Faction;
 using ASTRANET_Hidden_Sector.Entities.Trade;
 
@@ -27,7 +27,6 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             stationInventory = inventory;
             player = Game.CurrentPlayer!;
-
             RefreshGoods();
         }
 
@@ -52,27 +51,30 @@ namespace ASTRANET_Hidden_Sector.Screens
             int leftX = 5;
             int topY = 3;
 
-            uiManager.SetCursorPosition(leftX, topY - 1);
-            uiManager.Write("=== ТОРГОВЛЯ ===", ConsoleColor.Yellow);
-            uiManager.SetCursorPosition(leftX + 20, topY - 1);
-            uiManager.Write($"Кредиты: {player.Credits}", ConsoleColor.Cyan);
+            string header = "=== ТОРГОВЛЯ ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
-            uiManager.SetCursorPosition(leftX, topY);
-            if (currentMode == ShopMode.Buying)
-                uiManager.Write("[Покупка]  ", ConsoleColor.Cyan);
-            else
-                uiManager.Write(" Покупка   ", ConsoleColor.DarkGray);
+            string credits = $"Кредиты: {player.Credits}";
+            for (int i = 0; i < credits.Length; i++)
+                uiManager.SetPixel(leftX + 20 + i, topY - 1, credits[i], ConsoleColor.Cyan);
 
-            uiManager.SetCursorPosition(leftX + 12, topY);
-            if (currentMode == ShopMode.Selling)
-                uiManager.Write("[Продажа]", ConsoleColor.Cyan);
-            else
-                uiManager.Write(" Продажа ", ConsoleColor.DarkGray);
+            string buyTab = currentMode == ShopMode.Buying ? "[Покупка]  " : " Покупка   ";
+            string sellTab = currentMode == ShopMode.Selling ? "[Продажа]" : " Продажа ";
 
-            uiManager.SetCursorPosition(leftX, topY + 2);
-            uiManager.Write("Товары станции", ConsoleColor.Green);
-            uiManager.SetCursorPosition(leftX + 40, topY + 2);
-            uiManager.Write("Ваш инвентарь", ConsoleColor.Green);
+            for (int i = 0; i < buyTab.Length; i++)
+                uiManager.SetPixel(leftX + i, topY, buyTab[i],
+                    currentMode == ShopMode.Buying ? ConsoleColor.Cyan : ConsoleColor.DarkGray);
+            for (int i = 0; i < sellTab.Length; i++)
+                uiManager.SetPixel(leftX + 12 + i, topY, sellTab[i],
+                    currentMode == ShopMode.Selling ? ConsoleColor.Cyan : ConsoleColor.DarkGray);
+
+            string stationHeader = "Товары станции";
+            for (int i = 0; i < stationHeader.Length; i++)
+                uiManager.SetPixel(leftX + i, topY + 2, stationHeader[i], ConsoleColor.Green);
+            string playerHeader = "Ваш инвентарь";
+            for (int i = 0; i < playerHeader.Length; i++)
+                uiManager.SetPixel(leftX + 40 + i, topY + 2, playerHeader[i], ConsoleColor.Green);
 
             int listStartY = topY + 4;
             int rep = FactionManager.GetReputation(stationInventory.FactionId);
@@ -83,13 +85,15 @@ namespace ASTRANET_Hidden_Sector.Screens
                 var stationItem = stationInventory.Items.Find(ii => ii.GoodId == good.Id);
                 int price = stationInventory.GetBuyPrice(good, rep);
 
-                uiManager.SetCursorPosition(leftX, listStartY + i);
+                int y = listStartY + i;
                 if (currentMode == ShopMode.Buying && i == selectedStationIndex)
-                    uiManager.Write("> ", ConsoleColor.Yellow);
+                    uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                 else
-                    uiManager.Write("  ", ConsoleColor.Gray);
+                    uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
 
-                uiManager.Write($"{good.Name} ({stationItem.Quantity} шт.) - {price} кр.", ConsoleColor.White);
+                string line = $"{good.Name} ({stationItem.Quantity} шт.) - {price} кр.";
+                for (int j = 0; j < line.Length; j++)
+                    uiManager.SetPixel(leftX + 2 + j, y, line[j], ConsoleColor.White);
             }
 
             for (int i = 0; i < playerGoods.Count; i++)
@@ -97,27 +101,34 @@ namespace ASTRANET_Hidden_Sector.Screens
                 var good = playerGoods[i];
                 int price = stationInventory.GetSellPrice(good, rep);
 
-                uiManager.SetCursorPosition(leftX + 40, listStartY + i);
+                int y = listStartY + i;
                 if (currentMode == ShopMode.Selling && i == selectedPlayerIndex)
-                    uiManager.Write("> ", ConsoleColor.Yellow);
+                    uiManager.SetPixel(leftX + 40, y, '>', ConsoleColor.Yellow);
                 else
-                    uiManager.Write("  ", ConsoleColor.Gray);
+                    uiManager.SetPixel(leftX + 40, y, ' ', ConsoleColor.Black);
 
-                uiManager.Write($"{good.Name} - {price} кр.", ConsoleColor.White);
+                string line = $"{good.Name} - {price} кр.";
+                for (int j = 0; j < line.Length; j++)
+                    uiManager.SetPixel(leftX + 42 + j, y, line[j], ConsoleColor.White);
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 3);
+            string quantityLine = "";
             if (currentMode == ShopMode.Buying && stationGoods.Count > 0)
-            {
-                uiManager.Write($"Количество для покупки: {quantity} (←/→ изменить)", ConsoleColor.DarkGray);
-            }
+                quantityLine = $"Количество для покупки: {quantity} (←/→ изменить)";
             else if (currentMode == ShopMode.Selling && playerGoods.Count > 0)
+                quantityLine = $"Количество для продажи: {quantity} (←/→ изменить)";
+
+            if (!string.IsNullOrEmpty(quantityLine))
             {
-                uiManager.Write($"Количество для продажи: {quantity} (←/→ изменить)", ConsoleColor.DarkGray);
+                for (int i = 0; i < quantityLine.Length; i++)
+                    uiManager.SetPixel(2 + i, Console.WindowHeight - 3, quantityLine[i], ConsoleColor.DarkGray);
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("Tab - переключить режим, Enter - совершить сделку, Esc - выход", ConsoleColor.DarkGray);
+            string hint = "Tab - переключить режим, Enter - совершить сделку, Esc - выход";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)

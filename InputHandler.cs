@@ -91,8 +91,17 @@ namespace ASTRANET_Hidden_Sector.Core
             var galaxyScreen = stateManager.GetCurrentScreen<GalaxyMapScreen>();
             var globalScreen = stateManager.GetCurrentScreen<GlobalMapScreen>();
             var localScreen = stateManager.GetCurrentScreen<LocalMapScreen>();
+            var interiorScreen = stateManager.GetCurrentScreen<InteriorMapScreen>();
 
-            if (localScreen != null)
+            if (interiorScreen != null)
+            {
+                currentScreenType = "Interior";
+                currentSectorName = Game.CurrentSector?.Name ?? "Альфа";
+                currentSystemName = Game.CurrentSystem?.Name ?? "";
+                localX = interiorScreen.GetPlayerX();
+                localY = interiorScreen.GetPlayerY();
+            }
+            else if (localScreen != null)
             {
                 currentScreenType = "Local";
                 var system = localScreen.ParentSystem;

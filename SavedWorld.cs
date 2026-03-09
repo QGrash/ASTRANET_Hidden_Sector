@@ -9,11 +9,19 @@ namespace ASTRANET_Hidden_Sector.Data
     {
         public int Seed { get; set; }
         public List<SavedSector> Sectors { get; set; } = new();
+        public List<SavedInteriorState> Interiors { get; set; } = new();
         public string CurrentSectorId { get; set; } = "";
         public string CurrentSystemId { get; set; } = "";
         public int LocalPlayerX { get; set; }
         public int LocalPlayerY { get; set; }
         public string CurrentScreen { get; set; } = "Galaxy";
+    }
+
+    [Serializable]
+    public class SavedInteriorState
+    {
+        public string TemplateId { get; set; } = "";
+        public List<SavedEntity> Entities { get; set; } = new();
     }
 
     [Serializable]
@@ -75,5 +83,8 @@ namespace ASTRANET_Hidden_Sector.Data
         public string LocationType { get; set; } = "";
         public string DialogueId { get; set; } = "";
         public int Health { get; set; }
+        public bool IsOpen { get; set; }
+        public bool IsLocked { get; set; }
+        public List<string> Loot { get; set; } = new();
     }
 }

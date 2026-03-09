@@ -1,6 +1,5 @@
 ﻿using System;
 using ASTRANET_Hidden_Sector.Core;
-using ASTRANET_Hidden_Sector.Screens;
 
 namespace ASTRANET_Hidden_Sector.Screens
 {
@@ -16,27 +15,35 @@ namespace ASTRANET_Hidden_Sector.Screens
 
         public override void Render()
         {
-            uiManager.Clear(); // очищает экран через буфер
+            uiManager.Clear();
 
-            int centerX = Console.WindowWidth / 2;
-            int startY = Console.WindowHeight / 2 - menuItems.Length;
+            int startX = 2;
+            int startY = 2;
 
             for (int i = 0; i < menuItems.Length; i++)
             {
-                // Устанавливаем позицию для каждой строки
-                uiManager.SetCursorPosition(centerX - menuItems[i].Length / 2, startY + i);
+                string text = menuItems[i];
+                int y = startY + i;
                 if (i == selectedIndex)
-                    uiManager.Write(menuItems[i], ConsoleColor.Yellow);
+                {
+                    uiManager.SetPixel(startX, y, '>', ConsoleColor.Yellow);
+                    for (int j = 0; j < text.Length; j++)
+                        uiManager.SetPixel(startX + 2 + j, y, text[j], ConsoleColor.Yellow);
+                }
                 else
-                    uiManager.Write(menuItems[i], ConsoleColor.Gray);
+                {
+                    uiManager.SetPixel(startX, y, ' ', ConsoleColor.Black);
+                    for (int j = 0; j < text.Length; j++)
+                        uiManager.SetPixel(startX + 2 + j, y, text[j], ConsoleColor.Gray);
+                }
             }
 
-            // Подсказка
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ для выбора, Enter для подтверждения", ConsoleColor.DarkGray);
+            string hint = "↑/↓ для выбора, Enter для подтверждения";
+            int hintY = Console.WindowHeight - 2;
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(startX + i, hintY, hint[i], ConsoleColor.DarkGray);
 
-            // После всех записей вызываем Render для вывода на экран
-            // (это делает Game.Run, поэтому здесь не нужно)
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)
@@ -44,10 +51,14 @@ namespace ASTRANET_Hidden_Sector.Screens
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow:
-                    selectedIndex = (selectedIndex - 1 + menuItems.Length) % menuItems.Length;
+                    selectedIndex--;
+                    if (selectedIndex < 0)
+                        selectedIndex = menuItems.Length - 1;
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedIndex = (selectedIndex + 1) % menuItems.Length;
+                    selectedIndex++;
+                    if (selectedIndex >= menuItems.Length)
+                        selectedIndex = 0;
                     break;
                 case ConsoleKey.Enter:
                     ExecuteMenuItem();
@@ -59,13 +70,13 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             switch (selectedIndex)
             {
-                case 0: // Новая игра
+                case 0:
                     stateManager.ChangeScreen(new CharacterCreationScreen(stateManager, uiManager));
                     break;
-                case 1: // Загрузка
+                case 1:
                     stateManager.PushScreen(new LoadGameMenuScreen(stateManager, uiManager));
                     break;
-                case 2: // Выход
+                case 2:
                     Environment.Exit(0);
                     break;
             }

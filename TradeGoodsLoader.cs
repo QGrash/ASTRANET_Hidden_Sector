@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace ASTRANET_Hidden_Sector.Entities.Trade
@@ -22,7 +23,7 @@ namespace ASTRANET_Hidden_Sector.Entities.Trade
             {
                 try
                 {
-                    var json = File.ReadAllText(file);
+                    string json = File.ReadAllText(file, Encoding.UTF8);
                     var data = JsonConvert.DeserializeObject<TradeGoodData>(json);
                     if (data != null && !string.IsNullOrEmpty(data.Id))
                     {
@@ -31,7 +32,7 @@ namespace ASTRANET_Hidden_Sector.Entities.Trade
                 }
                 catch (Exception ex)
                 {
-                    // логирование ошибки
+                    // Логирование ошибки
                 }
             }
         }
@@ -48,7 +49,6 @@ namespace ASTRANET_Hidden_Sector.Entities.Trade
 
         private static void CreateDefaultGoods(string path)
         {
-            // Несколько примеров товаров
             var examples = new[]
             {
                 new TradeGoodData
@@ -103,7 +103,7 @@ namespace ASTRANET_Hidden_Sector.Entities.Trade
             foreach (var example in examples)
             {
                 var json = JsonConvert.SerializeObject(example, Formatting.Indented);
-                File.WriteAllText(Path.Combine(path, example.Id + ".json"), json);
+                File.WriteAllText(Path.Combine(path, example.Id + ".json"), json, Encoding.UTF8);
             }
         }
     }

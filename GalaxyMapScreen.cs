@@ -23,6 +23,12 @@ namespace ASTRANET_Hidden_Sector.Screens
         private Star[] stars;
         private int starOffset = 0;
 
+        // Фиксированные отступы
+        private const int MAP_LEFT = 5;
+        private const int MAP_TOP = 5;
+        private const int MAP_WIDTH = 60;
+        private const int MAP_HEIGHT = 20;
+
         public Sector CurrentSector => currentSector;
 
         public void UpdateCurrentSector(Sector sector)
@@ -55,13 +61,14 @@ namespace ASTRANET_Hidden_Sector.Screens
         public override void Render()
         {
             uiManager.Clear();
+
             DrawStars();
             DrawConnections();
 
             foreach (var sector in sectors)
             {
-                int screenX = 10 + (int)((sector.X / 100.0) * 60);
-                int screenY = 5 + (int)((sector.Y / 100.0) * 15);
+                int screenX = MAP_LEFT + (int)((sector.X / 100.0) * MAP_WIDTH);
+                int screenY = MAP_TOP + (int)((sector.Y / 100.0) * MAP_HEIGHT);
 
                 string symbol = sector.IsLocked ? "🔒" : "⏣";
                 ConsoleColor color = sector.IsLocked ? ConsoleColor.Red : ConsoleColor.Cyan;
@@ -75,17 +82,21 @@ namespace ASTRANET_Hidden_Sector.Screens
                     DrawSelectionBox(screenX, screenY, ConsoleColor.Green);
                 }
 
-                uiManager.SetCursorPosition(screenX, screenY);
-                uiManager.Write(symbol, color);
+                for (int i = 0; i < symbol.Length; i++)
+                    uiManager.SetPixel(screenX + i, screenY, symbol[i], color);
 
-                uiManager.SetCursorPosition(screenX + 2, screenY);
-                uiManager.Write(sector.Name, sector.IsLocked ? ConsoleColor.DarkRed : ConsoleColor.White);
+                for (int i = 0; i < sector.Name.Length; i++)
+                    uiManager.SetPixel(screenX + 2 + i, screenY, sector.Name[i],
+                        sector.IsLocked ? ConsoleColor.DarkRed : ConsoleColor.White);
             }
 
             DrawInfoPanel();
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ - выбор сектора, Enter - войти (если доступен), Esc - назад", ConsoleColor.DarkGray);
+            string hint = "↑/↓ - выбор сектора, Enter - войти (если доступен), Esc - назад";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         private void DrawStars()
@@ -94,8 +105,7 @@ namespace ASTRANET_Hidden_Sector.Screens
             for (int i = 0; i < stars.Length; i++)
             {
                 int y = (stars[i].Y + starOffset) % Console.WindowHeight;
-                uiManager.SetCursorPosition(stars[i].X, y);
-                uiManager.Write(stars[i].Symbol.ToString(), stars[i].Color);
+                uiManager.SetPixel(stars[i].X, y, stars[i].Symbol, stars[i].Color);
             }
         }
 
@@ -104,13 +114,13 @@ namespace ASTRANET_Hidden_Sector.Screens
             for (int i = 0; i < sectors.Count; i++)
             {
                 var s1 = sectors[i];
-                int x1 = 10 + (int)((s1.X / 100.0) * 60);
-                int y1 = 5 + (int)((s1.Y / 100.0) * 15);
+                int x1 = MAP_LEFT + (int)((s1.X / 100.0) * MAP_WIDTH);
+                int y1 = MAP_TOP + (int)((s1.Y / 100.0) * MAP_HEIGHT);
 
                 foreach (var s2 in s1.ConnectedSectors)
                 {
-                    int x2 = 10 + (int)((s2.X / 100.0) * 60);
-                    int y2 = 5 + (int)((s2.Y / 100.0) * 15);
+                    int x2 = MAP_LEFT + (int)((s2.X / 100.0) * MAP_WIDTH);
+                    int y2 = MAP_TOP + (int)((s2.Y / 100.0) * MAP_HEIGHT);
                     DrawLine(x1, y1, x2, y2, s2.IsLocked ? ConsoleColor.DarkRed : ConsoleColor.DarkGray);
                 }
             }
@@ -129,8 +139,8 @@ namespace ASTRANET_Hidden_Sector.Screens
                 bool isSector = false;
                 foreach (var s in sectors)
                 {
-                    int sxPos = 10 + (int)((s.X / 100.0) * 60);
-                    int syPos = 5 + (int)((s.Y / 100.0) * 15);
+                    int sxPos = MAP_LEFT + (int)((s.X / 100.0) * MAP_WIDTH);
+                    int syPos = MAP_TOP + (int)((s.Y / 100.0) * MAP_HEIGHT);
                     if (x1 == sxPos && y1 == syPos)
                     {
                         isSector = true;
@@ -139,8 +149,7 @@ namespace ASTRANET_Hidden_Sector.Screens
                 }
                 if (!isSector)
                 {
-                    uiManager.SetCursorPosition(x1, y1);
-                    uiManager.Write("·", color);
+                    uiManager.SetPixel(x1, y1, '·', color);
                 }
 
                 if (x1 == x2 && y1 == y2) break;
@@ -160,40 +169,60 @@ namespace ASTRANET_Hidden_Sector.Screens
 
         private void DrawSelectionBox(int x, int y, ConsoleColor color)
         {
-            uiManager.SetCursorPosition(x - 1, y - 1);
-            uiManager.Write("┌─┐", color);
-            uiManager.SetCursorPosition(x - 1, y);
-            uiManager.Write("│", color);
-            uiManager.SetCursorPosition(x + 1, y);
-            uiManager.Write("│", color);
-            uiManager.SetCursorPosition(x - 1, y + 1);
-            uiManager.Write("└─┘", color);
+            uiManager.SetPixel(x - 1, y - 1, '┌', color);
+            uiManager.SetPixel(x, y - 1, '─', color);
+            uiManager.SetPixel(x + 1, y - 1, '┐', color);
+            uiManager.SetPixel(x - 1, y, '│', color);
+            uiManager.SetPixel(x + 1, y, '│', color);
+            uiManager.SetPixel(x - 1, y + 1, '└', color);
+            uiManager.SetPixel(x, y + 1, '─', color);
+            uiManager.SetPixel(x + 1, y + 1, '┘', color);
         }
 
         private void DrawInfoPanel()
         {
-            int infoX = 70;
-            int infoY = 5;
+            int infoX = MAP_LEFT + MAP_WIDTH + 5;
+            int infoY = MAP_TOP;
             var selected = sectors[selectedSectorIndex];
 
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write("=== ИНФОРМАЦИЯ ===", ConsoleColor.Yellow);
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Текущий сектор: {Game.CurrentSector?.Name ?? "Неизвестно"}", ConsoleColor.Green);
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Выбранный сектор: {selected.Name}", selected.IsLocked ? ConsoleColor.Red : ConsoleColor.Cyan);
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Статус: {(selected.IsLocked ? "ЗАКРЫТ" : "ОТКРЫТ")}", selected.IsLocked ? ConsoleColor.Red : ConsoleColor.Green);
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Систем: {selected.Systems.Count}", ConsoleColor.White);
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write("Доступные сектора из текущего:", ConsoleColor.Cyan);
+            string line = "=== ИНФОРМАЦИЯ ===";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Yellow);
+            infoY++;
+
+            line = $"Текущий сектор: {Game.CurrentSector?.Name ?? "Неизвестно"}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Green);
+            infoY++;
+
+            line = $"Выбранный сектор: {selected.Name}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], selected.IsLocked ? ConsoleColor.Red : ConsoleColor.Cyan);
+            infoY++;
+
+            line = $"Статус: {(selected.IsLocked ? "ЗАКРЫТ" : "ОТКРЫТ")}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], selected.IsLocked ? ConsoleColor.Red : ConsoleColor.Green);
+            infoY++;
+
+            line = $"Систем: {selected.Systems.Count}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.White);
+            infoY++;
+
+            line = "Доступные сектора из текущего:";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Cyan);
+            infoY++;
+
             if (Game.CurrentSector != null)
             {
                 foreach (var conn in Game.CurrentSector.ConnectedSectors)
                 {
-                    uiManager.SetCursorPosition(infoX + 2, infoY++);
-                    uiManager.Write(conn.Name, conn.IsLocked ? ConsoleColor.DarkRed : ConsoleColor.White);
+                    line = $"  {conn.Name}";
+                    for (int i = 0; i < line.Length; i++)
+                        uiManager.SetPixel(infoX + i, infoY, line[i], conn.IsLocked ? ConsoleColor.DarkRed : ConsoleColor.White);
+                    infoY++;
                 }
             }
         }
@@ -246,10 +275,18 @@ namespace ASTRANET_Hidden_Sector.Screens
             int randomSystemIndex = rand.Next(sector.Systems.Count);
             var startSystem = sector.Systems[randomSystemIndex];
 
-            Game.CurrentSector = sector;
-            Game.CurrentSystem = null;
+            string fromName = Game.CurrentSector?.Name ?? "Неизвестно";
+            string toName = sector.Name;
 
-            stateManager.PushScreen(new GlobalMapScreen(stateManager, uiManager, sector, startSystem));
+            Action onJumpComplete = () =>
+            {
+                Game.CurrentSector = sector;
+                Game.CurrentSystem = null;
+                // Заменяем экран анимации на карту сектора
+                stateManager.ReplaceScreen(new GlobalMapScreen(stateManager, uiManager, sector, startSystem));
+            };
+
+            stateManager.PushScreen(new HyperJumpScreen(stateManager, uiManager, fromName, toName, onJumpComplete));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace ASTRANET_Hidden_Sector.Entities.Dialogue
@@ -22,7 +23,8 @@ namespace ASTRANET_Hidden_Sector.Entities.Dialogue
             {
                 try
                 {
-                    var json = File.ReadAllText(file);
+                    // Чтение в UTF-8
+                    string json = File.ReadAllText(file, Encoding.UTF8);
                     var dialogue = JsonConvert.DeserializeObject<DialogueData>(json);
                     if (dialogue != null && !string.IsNullOrEmpty(dialogue.Id))
                     {
@@ -102,10 +104,9 @@ namespace ASTRANET_Hidden_Sector.Entities.Dialogue
                 }
             };
 
-
-
             var json = JsonConvert.SerializeObject(defaultDialogue, Formatting.Indented);
-            File.WriteAllText(Path.Combine(path, "trader_01.json"), json);
+            // Запись в UTF-8
+            File.WriteAllText(Path.Combine(path, "trader_01.json"), json, Encoding.UTF8);
         }
     }
 }

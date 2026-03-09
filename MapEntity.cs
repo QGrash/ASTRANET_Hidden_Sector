@@ -13,7 +13,8 @@ namespace ASTRANET_Hidden_Sector.World
         public bool IsVisible { get; set; } = false;
         public bool IsExplored { get; set; } = false;
         public bool IsDestroyed { get; set; } = false;
-        public bool IsStatic { get; set; } = true; // по умолчанию true для статических объектов
+        public bool IsStatic { get; set; } = true;
+        public bool IsSolid { get; set; } = false; // добавлено
 
         public abstract void Interact(GameStateManager stateManager, UIManager uiManager);
     }

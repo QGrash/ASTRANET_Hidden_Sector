@@ -5,6 +5,7 @@ using ASTRANET_Hidden_Sector.World;
 using ASTRANET_Hidden_Sector.Entities;
 using ASTRANET_Hidden_Sector.Entities.Dialogue;
 using ASTRANET_Hidden_Sector.Entities.Quest;
+using ASTRANET_Hidden_Sector.Combat;
 
 namespace ASTRANET_Hidden_Sector.Screens
 {
@@ -16,7 +17,6 @@ namespace ASTRANET_Hidden_Sector.Screens
         private const int MAP_OFFSET_Y = 3;
         private const int CELL_WIDTH = 2;
 
-        // Для мерцания фона
         private float globalTime = 0f;
         private const float TWINKLE_SPEED = 2f;
 
@@ -39,126 +39,95 @@ namespace ASTRANET_Hidden_Sector.Screens
 
         public override void Render()
         {
-            try
+            uiManager.Clear();
+
+            // Заголовок
+            string title = $"Локальная карта: {parentSystem.Name} ({parentSystem.Type})";
+            for (int i = 0; i < title.Length; i++)
+                uiManager.SetPixel(MAP_OFFSET_X + i, 1, title[i], ConsoleColor.Cyan);
+
+            // Отрисовка клеток карты (без рамки)
+            for (int y = 0; y < LocalMap.Height; y++)
             {
-                uiManager.Clear();
-
-                uiManager.SetCursorPosition(2, 1);
-                uiManager.Write($"Локальная карта: {parentSystem.Name} ({parentSystem.Type})", ConsoleColor.Cyan);
-
-                DrawFrame();
-
-                for (int y = 0; y < LocalMap.Height; y++)
+                for (int x = 0; x < LocalMap.Width; x++)
                 {
-                    for (int x = 0; x < LocalMap.Width; x++)
+                    var cell = map.GetCell(x, y)!;
+                    int screenX = MAP_OFFSET_X + x * CELL_WIDTH;
+                    int screenY = MAP_OFFSET_Y + y;
+
+                    char symbol;
+                    ConsoleColor color;
+
+                    if (x == map.PlayerX && y == map.PlayerY)
                     {
-                        var cell = map.GetCell(x, y)!;
-                        int screenX = MAP_OFFSET_X + x * CELL_WIDTH;
-                        int screenY = MAP_OFFSET_Y + y;
-
-                        char symbol;
-                        ConsoleColor color;
-
-                        if (x == map.PlayerX && y == map.PlayerY)
+                        symbol = 'Y';
+                        color = ConsoleColor.White;
+                    }
+                    else if (cell.IsVisible)
+                    {
+                        if (cell.Entity != null && !cell.Entity.IsDestroyed)
                         {
-                            symbol = 'Y';
-                            color = ConsoleColor.White;
-                        }
-                        else if (cell.IsVisible)
-                        {
-                            if (cell.Entity != null && !cell.Entity.IsDestroyed)
-                            {
-                                symbol = cell.Symbol;
-                                color = cell.Color;
-                            }
-                            else
-                            {
-                                symbol = '·';
-                                color = GetTwinkleColor(x, y, explored: false);
-                            }
-                        }
-                        else if (cell.IsExplored)
-                        {
-                            if (cell.Entity != null && !cell.Entity.IsDestroyed && cell.Entity.IsStatic)
-                            {
-                                symbol = cell.Symbol;
-                                color = ConsoleColor.Cyan;
-                            }
-                            else
-                            {
-                                symbol = '·';
-                                color = GetTwinkleColor(x, y, explored: true);
-                            }
+                            symbol = cell.Symbol;
+                            color = cell.Color;
                         }
                         else
                         {
                             symbol = '·';
-                            color = ConsoleColor.DarkBlue;
+                            color = GetTwinkleColor(x, y, false);
                         }
-
-                        uiManager.SetCursorPosition(screenX, screenY);
-                        uiManager.Write(symbol.ToString(), color);
-                        uiManager.Write(" ", ConsoleColor.Black);
                     }
+                    else if (cell.IsExplored)
+                    {
+                        if (cell.Entity != null && !cell.Entity.IsDestroyed && cell.Entity.IsStatic)
+                        {
+                            symbol = cell.Symbol;
+                            color = ConsoleColor.Cyan;
+                        }
+                        else
+                        {
+                            symbol = '·';
+                            color = GetTwinkleColor(x, y, true);
+                        }
+                    }
+                    else
+                    {
+                        symbol = '·';
+                        color = ConsoleColor.DarkBlue;
+                    }
+
+                    uiManager.SetPixel(screenX, screenY, symbol, color);
+                    uiManager.SetPixel(screenX + 1, screenY, ' ', ConsoleColor.Black);
                 }
-
-                var currentCell = map.GetCell(map.PlayerX, map.PlayerY)!;
-                if (currentCell.Entity != null && !currentCell.Entity.IsDestroyed)
-                {
-                    var entity = currentCell.Entity;
-                    int infoX = 50;
-                    int infoY = 3;
-                    uiManager.SetCursorPosition(infoX, infoY++);
-                    uiManager.Write($"Объект: {entity.Name}", ConsoleColor.Yellow);
-                    uiManager.SetCursorPosition(infoX, infoY++);
-                    uiManager.Write($"Тип: {entity.GetType().Name}", ConsoleColor.Green);
-                    uiManager.SetCursorPosition(infoX, infoY++);
-                    uiManager.Write(entity.Description, ConsoleColor.Gray);
-                }
-
-                uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-                uiManager.Write("Стрелки - перемещение, E - взаимодействие, I - инвентарь, C - персонаж, B - корабль, J - квесты, Backspace - назад, ESC - меню", ConsoleColor.DarkGray);
             }
-            catch (Exception ex)
+
+            // Информация о текущей клетке
+            var currentCell = map.GetCell(map.PlayerX, map.PlayerY)!;
+            if (currentCell.Entity != null && !currentCell.Entity.IsDestroyed)
             {
-                Console.Clear();
-                Console.WriteLine($"Ошибка в LocalMapScreen.Render: {ex.Message}");
-                Console.WriteLine("Нажмите любую клавишу для продолжения...");
-                Console.ReadKey(true);
-            }
-        }
+                var entity = currentCell.Entity;
+                int infoX = 50;
+                int infoY = 3;
 
-        private void DrawFrame()
-        {
-            int left = MAP_OFFSET_X - 1;
-            int right = left + LocalMap.Width * CELL_WIDTH;
-            int top = MAP_OFFSET_Y - 1;
-            int bottom = top + LocalMap.Height + 1;
+                string label1 = $"Объект: {entity.Name}";
+                for (int i = 0; i < label1.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, label1[i], ConsoleColor.Yellow);
+                infoY++;
 
-            for (int x = left + 1; x < right; x++)
-            {
-                uiManager.SetCursorPosition(x, top);
-                uiManager.Write("─", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(x, bottom);
-                uiManager.Write("─", ConsoleColor.Gray);
+                string label2 = $"Тип: {entity.GetType().Name}";
+                for (int i = 0; i < label2.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, label2[i], ConsoleColor.Green);
+                infoY++;
+
+                for (int i = 0; i < entity.Description.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, entity.Description[i], ConsoleColor.Gray);
             }
 
-            for (int y = top + 1; y < bottom; y++)
-            {
-                uiManager.SetCursorPosition(left, y);
-                uiManager.Write("│", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(right, y);
-                uiManager.Write("│", ConsoleColor.Gray);
-            }
+            // Подсказка
+            string hint = "Стрелки - перемещение, E - взаимодействие, I - инвентарь, C - персонаж, B - корабль, J - квесты, Backspace - назад, ESC - меню";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
 
-            uiManager.SetCursorPosition(left, top);
-            uiManager.Write("┌", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(right, top);
-            uiManager.Write("┐", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(left, bottom);
-            uiManager.Write("└", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(right, bottom);
-            uiManager.Write("┘", ConsoleColor.Gray);
+            uiManager.Render();
         }
 
         private ConsoleColor GetTwinkleColor(int x, int y, bool explored = false)
@@ -185,71 +154,85 @@ namespace ASTRANET_Hidden_Sector.Screens
             int newX = map.PlayerX;
             int newY = map.PlayerY;
 
-            try
+            switch (key.Key)
             {
-                switch (key.Key)
-                {
-                    case ConsoleKey.UpArrow: newY--; break;
-                    case ConsoleKey.DownArrow: newY++; break;
-                    case ConsoleKey.LeftArrow: newX--; break;
-                    case ConsoleKey.RightArrow: newX++; break;
-                    case ConsoleKey.E:
-                        InteractWithCurrentCell();
-                        return;
-                    case ConsoleKey.Backspace:
-                        Console.WriteLine("LocalMapScreen: Backspace pressed. Popping screen...");
-                        stateManager.PopScreen();
-                        Console.WriteLine("LocalMapScreen: PopScreen completed.");
-                        return;
-                    default:
-                        return;
-                }
+                case ConsoleKey.UpArrow: newY--; break;
+                case ConsoleKey.DownArrow: newY++; break;
+                case ConsoleKey.LeftArrow: newX--; break;
+                case ConsoleKey.RightArrow: newX++; break;
+                case ConsoleKey.E:
+                    InteractWithCurrentCell();
+                    return;
+                case ConsoleKey.Backspace:
+                    stateManager.PopScreen();
+                    return;
+                default:
+                    return;
+            }
 
-                if (newX >= 0 && newX < LocalMap.Width && newY >= 0 && newY < LocalMap.Height)
+            if (newX >= 0 && newX < LocalMap.Width && newY >= 0 && newY < LocalMap.Height)
+            {
+                var targetCell = map.GetCell(newX, newY);
+                if (targetCell != null)
                 {
+                    if (targetCell.Entity != null && targetCell.Entity.IsSolid)
+                        return;
                     map.PlayerX = newX;
                     map.PlayerY = newY;
                     map.UpdateVisibility();
                     map.UpdateAllEntities();
                 }
             }
-            catch (Exception ex)
-            {
-                Console.Clear();
-                Console.WriteLine($"Ошибка в LocalMapScreen.HandleInput: {ex.Message}");
-                Console.WriteLine("Нажмите любую клавишу для продолжения...");
-                Console.ReadKey(true);
-            }
         }
 
         private void InteractWithCurrentCell()
         {
-            try
+            var cell = map.GetCell(map.PlayerX, map.PlayerY)!;
+            if (cell.IsExplored && cell.Entity != null && !cell.Entity.IsDestroyed)
             {
-                var cell = map.GetCell(map.PlayerX, map.PlayerY)!;
-                if (cell.IsExplored && cell.Entity != null && !cell.Entity.IsDestroyed)
+                if (cell.Entity is StaticEntity staticEntity && staticEntity.Type == LocationType.Enemy)
                 {
-                    QuestManager.UpdateProgress(ObjectiveType.VisitLocation, cell.Entity.Name, 1);
-                    cell.Entity.Interact(stateManager, uiManager);
-
-                    if (cell.Entity.IsDestroyed)
-                    {
-                        cell.Entity = null;
-                        map.UpdateCellAppearance(map.PlayerX, map.PlayerY);
-                    }
+                    StartSpaceCombat(staticEntity);
                 }
                 else
                 {
-                    stateManager.PushScreen(new MessageScreen(stateManager, uiManager, "Пусто", "Здесь ничего нет."));
+                    QuestManager.UpdateProgress(ObjectiveType.VisitLocation, cell.Entity.Name, 1);
+                    cell.Entity.Interact(stateManager, uiManager);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.Clear();
-                Console.WriteLine($"Ошибка в LocalMapScreen.InteractWithCurrentCell: {ex.Message}");
-                Console.WriteLine("Нажмите любую клавишу для продолжения...");
-                Console.ReadKey(true);
+                stateManager.PushScreen(new MessageScreen(stateManager, uiManager, "Пусто", "Здесь ничего нет."));
             }
+        }
+
+        private void StartSpaceCombat(StaticEntity enemyEntity)
+        {
+            var playerShip = new SpaceCombatant(
+                name: Game.CurrentPlayer?.Name ?? "Игрок",
+                maxHealth: 100,
+                maxEnergy: 50,
+                shield: new Shield(50, 5),
+                evasion: 10,
+                weapons: new List<Weapon>
+                {
+                    new Weapon("Лазер", DamageType.Laser, 10, 15, 5, 10, 1, 5, 1.5f, WeaponClass.Medium, WeaponMode.Single)
+                }
+            );
+
+            var enemyShip = new SpaceCombatant(
+                name: enemyEntity.Name,
+                maxHealth: 80,
+                maxEnergy: 40,
+                shield: new Shield(30, 2),
+                evasion: 5,
+                weapons: new List<Weapon>
+                {
+                    new Weapon("Плазма", DamageType.Plasma, 8, 12, 0, 8, 1, 10, 2.0f, WeaponClass.Medium, WeaponMode.Single)
+                }
+            );
+
+            stateManager.PushScreen(new SpaceCombatScreen(stateManager, uiManager, playerShip, new List<SpaceCombatant> { enemyShip }, parentSystem));
         }
 
         public int GetPlayerX() => map.PlayerX;

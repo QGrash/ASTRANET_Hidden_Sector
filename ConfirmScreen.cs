@@ -23,50 +23,49 @@ namespace ASTRANET_Hidden_Sector.Screens
 
             int boxWidth = 60;
             int boxHeight = 8;
-            int startX = (Console.WindowWidth - boxWidth) / 2;
-            int startY = (Console.WindowHeight - boxHeight) / 2;
+            int startX = 2;
+            int startY = 3;
 
             // Рамка
             for (int x = startX; x <= startX + boxWidth; x++)
             {
-                uiManager.SetCursorPosition(x, startY);
-                uiManager.Write("─", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(x, startY + boxHeight);
-                uiManager.Write("─", ConsoleColor.Gray);
+                uiManager.SetPixel(x, startY, '─', ConsoleColor.Gray);
+                uiManager.SetPixel(x, startY + boxHeight, '─', ConsoleColor.Gray);
             }
             for (int y = startY; y <= startY + boxHeight; y++)
             {
-                uiManager.SetCursorPosition(startX, y);
-                uiManager.Write("│", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(startX + boxWidth, y);
-                uiManager.Write("│", ConsoleColor.Gray);
+                uiManager.SetPixel(startX, y, '│', ConsoleColor.Gray);
+                uiManager.SetPixel(startX + boxWidth, y, '│', ConsoleColor.Gray);
             }
-            uiManager.SetCursorPosition(startX, startY);
-            uiManager.Write("┌", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(startX + boxWidth, startY);
-            uiManager.Write("┐", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(startX, startY + boxHeight);
-            uiManager.Write("└", ConsoleColor.Gray);
-            uiManager.SetCursorPosition(startX + boxWidth, startY + boxHeight);
-            uiManager.Write("┘", ConsoleColor.Gray);
+            uiManager.SetPixel(startX, startY, '┌', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY, '┐', ConsoleColor.Gray);
+            uiManager.SetPixel(startX, startY + boxHeight, '└', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY + boxHeight, '┘', ConsoleColor.Gray);
 
             // Сообщение
-            uiManager.SetCursorPosition(startX + 2, startY + 2);
-            uiManager.Write(message, ConsoleColor.White);
+            for (int i = 0; i < message.Length; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + 2, message[i], ConsoleColor.White);
 
             // Опции
             int optionX = startX + boxWidth / 2 - 4;
             for (int i = 0; i < options.Length; i++)
             {
-                uiManager.SetCursorPosition(optionX + i * 8, startY + 4);
+                string opt = options[i];
                 if (i == selectedIndex)
-                    uiManager.Write("> " + options[i] + " <", ConsoleColor.Yellow);
+                    opt = "> " + opt + " <";
                 else
-                    uiManager.Write("  " + options[i] + "  ", ConsoleColor.DarkGray);
+                    opt = "  " + opt + "  ";
+                for (int j = 0; j < opt.Length; j++)
+                    uiManager.SetPixel(optionX + j, startY + 4, opt[j],
+                        i == selectedIndex ? ConsoleColor.Yellow : ConsoleColor.DarkGray);
+                optionX += opt.Length + 2; // небольшой отступ
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("←/→ для выбора, Enter для подтверждения", ConsoleColor.DarkGray);
+            string hint = "←/→ для выбора, Enter для подтверждения, Esc - отмена";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)

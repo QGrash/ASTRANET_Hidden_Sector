@@ -20,35 +20,40 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             uiManager.Clear();
 
-            int leftX = 10;
-            int topY = 5;
+            int leftX = 5;
+            int topY = 3;
             var items = player.Inventory.GetAllItems();
 
-            uiManager.SetCursorPosition(leftX, topY - 2);
-            uiManager.Write($"ИНВЕНТАРЬ", ConsoleColor.Yellow);
-            uiManager.SetCursorPosition(leftX + 20, topY - 2);
-            uiManager.Write($"Вес: {player.Inventory.CurrentWeight}/{player.Inventory.MaxWeight} кг", ConsoleColor.Cyan);
+            string header = "ИНВЕНТАРЬ";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 2, header[i], ConsoleColor.Yellow);
+
+            string weightInfo = $"Вес: {player.Inventory.CurrentWeight}/{player.Inventory.MaxWeight} кг";
+            for (int i = 0; i < weightInfo.Length; i++)
+                uiManager.SetPixel(leftX + 15 + i, topY - 2, weightInfo[i], ConsoleColor.Cyan);
 
             if (items.Count == 0)
             {
-                uiManager.SetCursorPosition(leftX, topY);
-                uiManager.Write("Инвентарь пуст", ConsoleColor.DarkGray);
+                string empty = "Инвентарь пуст";
+                for (int i = 0; i < empty.Length; i++)
+                    uiManager.SetPixel(leftX + i, topY, empty[i], ConsoleColor.DarkGray);
             }
             else
             {
                 for (int i = 0; i < items.Count; i++)
                 {
-                    uiManager.SetCursorPosition(leftX, topY + i);
+                    int y = topY + i;
                     if (i == selectedIndex)
-                        uiManager.Write("> ", ConsoleColor.Yellow);
+                        uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                     else
-                        uiManager.Write("  ", ConsoleColor.Gray);
+                        uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
 
                     var item = items[i];
                     string line = $"{item.Name} ({item.Weight} кг)";
                     if (item.Type == ItemType.Consumable && item.HealAmount > 0)
                         line += $" [лечит {item.HealAmount}]";
-                    uiManager.Write(line, ConsoleColor.White);
+                    for (int j = 0; j < line.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y, line[j], ConsoleColor.White);
                 }
             }
 
@@ -58,16 +63,26 @@ namespace ASTRANET_Hidden_Sector.Screens
                 int infoX = leftX + 40;
                 int infoY = topY;
 
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Описание: {item.Description}", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Тип: {item.Type}", ConsoleColor.Green);
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Цена: {item.Value} кредитов", ConsoleColor.Yellow);
+                string desc = $"Описание: {item.Description}";
+                for (int i = 0; i < desc.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, desc[i], ConsoleColor.Gray);
+                infoY++;
+
+                string type = $"Тип: {item.Type}";
+                for (int i = 0; i < type.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, type[i], ConsoleColor.Green);
+                infoY++;
+
+                string price = $"Цена: {item.Value} кредитов";
+                for (int i = 0; i < price.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, price[i], ConsoleColor.Yellow);
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ - выбор, Enter - использовать, D - выбросить, Backspace - назад, ESC - меню", ConsoleColor.DarkGray);
+            string hint = "↑/↓ - выбор, Enter - использовать, D - выбросить, Backspace - назад, ESC - меню";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)

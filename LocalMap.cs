@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using ASTRANET_Hidden_Sector.Data;
 
 namespace ASTRANET_Hidden_Sector.World
 {
@@ -22,15 +20,13 @@ namespace ASTRANET_Hidden_Sector.World
                     cells[x, y] = new LocalMapCell();
         }
 
-        // Конструктор для восстановления из сохранения
-        public LocalMap(SavedLocalMap saved)
+        public LocalMap(Data.SavedLocalMap saved)
         {
             cells = new LocalMapCell[Width, Height];
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Height; y++)
                     cells[x, y] = new LocalMapCell();
 
-            // Восстанавливаем ячейки
             foreach (var cellData in saved.Cells)
             {
                 var cell = GetCell(cellData.X, cellData.Y);
@@ -42,8 +38,6 @@ namespace ASTRANET_Hidden_Sector.World
                     cell.Color = cellData.Color;
                     if (cellData.Entity != null)
                     {
-                        // Восстанавливаем сущность (нужен фабричный метод)
-                        // Пока создаём заглушку – статическую сущность без диалога
                         cell.Entity = new StaticEntity(
                             new Location
                             {
@@ -59,7 +53,6 @@ namespace ASTRANET_Hidden_Sector.World
                 }
             }
 
-            // Позиция игрока (если сохранена, можно восстановить позже)
             PlayerX = Width / 2;
             PlayerY = Height / 2;
         }
@@ -109,7 +102,7 @@ namespace ASTRANET_Hidden_Sector.World
             }
         }
 
-        public void UpdateVisibility(int sightRange = 3)
+        public void UpdateVisibility(int sightRange = 5)
         {
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Height; y++)

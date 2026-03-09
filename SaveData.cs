@@ -27,6 +27,12 @@ namespace ASTRANET_Hidden_Sector.Data
         public int PlayerX { get; set; }
         public int PlayerY { get; set; }
         public bool InLocalMap { get; set; }
+
+        // Поля для интерьеров
+        public bool InInterior { get; set; }
+        public string CurrentInteriorId { get; set; } = "";
+        public int InteriorPlayerX { get; set; }
+        public int InteriorPlayerY { get; set; }
     }
 
     public class SavedItem

@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASTRANET_Hidden_Sector", "A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
 	ProjectSection(SolutionItems) = preProject
+		DebugLogger.cs = DebugLogger.cs
 		Game.cs = Game.cs
 		GameStateManager.cs = GameStateManager.cs
 		InputHandler.cs = InputHandler.cs
@@ -22,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screens", "Screens", "{194E
 		GalaxyMapScreen.cs = GalaxyMapScreen.cs
 		GameScreen.cs = GameScreen.cs
 		GlobalMapScreen.cs = GlobalMapScreen.cs
+		HyperJumpScreen.cs = HyperJumpScreen.cs
 		InventoryScreen.cs = InventoryScreen.cs
 		LoadGameMenuScreen.cs = LoadGameMenuScreen.cs
 		LocalMapScreen.cs = LocalMapScreen.cs
@@ -32,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screens", "Screens", "{194E
 		ReputationScreen.cs = ReputationScreen.cs
 		ShipScreen.cs = ShipScreen.cs
 		ShopScreen.cs = ShopScreen.cs
+		SpaceCombatScreen.cs = SpaceCombatScreen.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{E857A5F4-F74C-48AD-9E92-2C5BB0DB3282}"
@@ -63,6 +66,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "World", "World", "{FDB44F45
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Combat", "Combat", "{83DBE729-DB1D-49D5-A9BD-BE6C825F4964}"
+	ProjectSection(SolutionItems) = preProject
+		CombatantBase.cs = CombatantBase.cs
+		GroundCombatant.cs = GroundCombatant.cs
+		GroundCombatManager.cs = GroundCombatManager.cs
+		ICombatant.cs = ICombatant.cs
+		Shield.cs = Shield.cs
+		SpaceCombatant.cs = SpaceCombatant.cs
+		Weapon.cs = Weapon.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{6CCA185F-1A8F-44F1-BDAA-1272E174C1FC}"
 	ProjectSection(SolutionItems) = preProject
@@ -83,7 +95,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dialogues", "Dialogues", "{
 		DialogueCondition.cs = DialogueCondition.cs
 		DialogueManager.cs = DialogueManager.cs
 		DialogueNode.cs = DialogueNode.cs
-		trader.josn = trader.josn
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quests", "Quests", "{7AA6FFA0-4A61-4406-8C84-1832B1662020}"
@@ -108,6 +119,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{17E180A7-8
 		DialogueData.cs = DialogueData.cs
 		DialogueLoader.cs = DialogueLoader.cs
 		DialogueNodeData.cs = DialogueNodeData.cs
+		trader_01.json = trader_01.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Faction", "Faction", "{FB3C8A5F-A5A0-4520-96CA-63595BF6DC8B}"
@@ -119,6 +131,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trade", "Trade", "{92C14D15
 	ProjectSection(SolutionItems) = preProject
 		TradeGoodData.cs = TradeGoodData.cs
 		TradeGoodsLoader.cs = TradeGoodsLoader.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interior", "Interior", "{7A4C3B41-7834-4016-9DC4-00E9956C2F13}"
+	ProjectSection(SolutionItems) = preProject
+		InteriorCell.cs = InteriorCell.cs
+		InteriorEntity.cs = InteriorEntity.cs
+		InteriorTemplate.cs = InteriorTemplate.cs
 	EndProjectSection
 EndProject
 Global
@@ -142,6 +161,7 @@ Global
 		{17E180A7-861D-43BC-AF0A-A74F76BFD166} = {76C0DA4D-FC87-4FBF-914D-CCD2D457810E}
 		{FB3C8A5F-A5A0-4520-96CA-63595BF6DC8B} = {F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}
 		{92C14D15-1D68-43DA-8913-6073B307D1B1} = {F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}
+		{7A4C3B41-7834-4016-9DC4-00E9956C2F13} = {F0EE77EB-6ED6-40D4-BBF7-2BB311864D1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {108577BE-3349-47A8-9592-9EEF1FDEFBB4}

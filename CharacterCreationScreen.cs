@@ -15,8 +15,6 @@ namespace ASTRANET_Hidden_Sector.Screens
         private string playerName = "";
         private List<Background> backgrounds;
         private int selectedBackgroundIndex = 0;
-
-        // Для ввода имени
         private bool isEditingName = true;
 
         public CharacterCreationScreen(GameStateManager stateManager, UIManager uiManager)
@@ -29,100 +27,129 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             uiManager.Clear();
 
-            int centerX = Console.WindowWidth / 2;
-            int startY = 5;
+            int leftX = 5;
+            int topY = 3;
 
-            // Заголовок
-            uiManager.SetCursorPosition(centerX - 15, startY - 2);
-            uiManager.Write("=== СОЗДАНИЕ ПЕРСОНАЖА ===", ConsoleColor.Yellow);
+            string header = "=== СОЗДАНИЕ ПЕРСОНАЖА ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
             switch (currentStage)
             {
                 case CreationStage.NameInput:
-                    RenderNameInput(centerX, startY);
+                    RenderNameInput(leftX, topY);
                     break;
                 case CreationStage.BackgroundSelection:
-                    RenderBackgroundSelection(centerX, startY);
+                    RenderBackgroundSelection(leftX, topY);
                     break;
                 case CreationStage.Confirmation:
-                    RenderConfirmation(centerX, startY);
+                    RenderConfirmation(leftX, topY);
                     break;
             }
 
-            // Подсказки внизу
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
+            string hint = "";
             switch (currentStage)
             {
                 case CreationStage.NameInput:
-                    uiManager.Write("Введите имя, Enter - подтвердить, Backspace - удалить символ", ConsoleColor.DarkGray);
+                    hint = "Введите имя, Enter - подтвердить, Backspace - удалить символ";
                     break;
                 case CreationStage.BackgroundSelection:
-                    uiManager.Write("↑/↓ - выбор, Enter - подтвердить, Backspace - вернуться к имени", ConsoleColor.DarkGray);
+                    hint = "↑/↓ - выбор, Enter - подтвердить, Backspace - вернуться к имени";
                     break;
                 case CreationStage.Confirmation:
-                    uiManager.Write("Enter - начать игру, Backspace - изменить выбор", ConsoleColor.DarkGray);
+                    hint = "Enter - начать игру, Backspace - изменить выбор";
                     break;
             }
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
-        private void RenderNameInput(int centerX, int startY)
+        private void RenderNameInput(int leftX, int topY)
         {
-            uiManager.SetCursorPosition(centerX - 10, startY);
-            uiManager.Write("Имя персонажа:", ConsoleColor.Cyan);
-            uiManager.SetCursorPosition(centerX - 10, startY + 2);
-            uiManager.Write("> " + playerName + (isEditingName ? "_" : ""), ConsoleColor.White);
+            string label = "Имя персонажа:";
+            for (int i = 0; i < label.Length; i++)
+                uiManager.SetPixel(leftX + i, topY, label[i], ConsoleColor.Cyan);
+
+            string input = "> " + playerName + (isEditingName ? "_" : "");
+            for (int i = 0; i < input.Length; i++)
+                uiManager.SetPixel(leftX + i, topY + 2, input[i], ConsoleColor.White);
         }
 
-        private void RenderBackgroundSelection(int centerX, int startY)
+        private void RenderBackgroundSelection(int leftX, int topY)
         {
-            uiManager.SetCursorPosition(centerX - 15, startY);
-            uiManager.Write("Выберите предысторию:", ConsoleColor.Cyan);
+            string title = "Выберите предысторию:";
+            for (int i = 0; i < title.Length; i++)
+                uiManager.SetPixel(leftX + i, topY, title[i], ConsoleColor.Cyan);
 
-            int listStartY = startY + 2;
+            int listStartY = topY + 2;
             for (int i = 0; i < backgrounds.Count; i++)
             {
-                uiManager.SetCursorPosition(centerX - 20, listStartY + i);
+                int y = listStartY + i;
                 if (i == selectedBackgroundIndex)
-                    uiManager.Write("> " + backgrounds[i].Name, ConsoleColor.Yellow);
+                    uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                 else
-                    uiManager.Write("  " + backgrounds[i].Name, ConsoleColor.Gray);
+                    uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
+
+                for (int j = 0; j < backgrounds[i].Name.Length; j++)
+                    uiManager.SetPixel(leftX + 2 + j, y, backgrounds[i].Name[j],
+                        i == selectedBackgroundIndex ? ConsoleColor.Yellow : ConsoleColor.Gray);
             }
 
-            // Отображение деталей выбранной предыстории
             if (selectedBackgroundIndex >= 0 && selectedBackgroundIndex < backgrounds.Count)
             {
                 var bg = backgrounds[selectedBackgroundIndex];
-                int detailsX = centerX + 10;
-                int detailsY = startY + 2;
+                int detailsX = leftX + 30;
+                int detailsY = topY + 2;
 
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write("Описание: " + bg.Description, ConsoleColor.DarkGray);
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write("Бонусы к характеристикам:", ConsoleColor.Green);
+                string desc = "Описание: " + bg.Description;
+                for (int i = 0; i < desc.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, desc[i], ConsoleColor.DarkGray);
+                detailsY++;
+
+                string bonuses = "Бонусы к характеристикам:";
+                for (int i = 0; i < bonuses.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, bonuses[i], ConsoleColor.Green);
+                detailsY++;
+
                 foreach (var bonus in bg.StatBonuses)
                 {
-                    uiManager.SetCursorPosition(detailsX, detailsY++);
-                    uiManager.Write($"  {bonus.Key}: +{bonus.Value}", ConsoleColor.White);
+                    string line = $"  {bonus.Key}: +{bonus.Value}";
+                    for (int i = 0; i < line.Length; i++)
+                        uiManager.SetPixel(detailsX + i, detailsY, line[i], ConsoleColor.White);
+                    detailsY++;
                 }
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write("Способность: " + bg.AbilityName, ConsoleColor.Magenta);
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write("  " + bg.AbilityEffect, ConsoleColor.DarkMagenta);
+
+                string ability = "Способность: " + bg.AbilityName;
+                for (int i = 0; i < ability.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, ability[i], ConsoleColor.Magenta);
+                detailsY++;
+
+                string effect = "  " + bg.AbilityEffect;
+                for (int i = 0; i < effect.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, effect[i], ConsoleColor.DarkMagenta);
             }
         }
 
-        private void RenderConfirmation(int centerX, int startY)
+        private void RenderConfirmation(int leftX, int topY)
         {
             var bg = backgrounds[selectedBackgroundIndex];
-            uiManager.SetCursorPosition(centerX - 15, startY);
-            uiManager.Write("Подтвердите создание персонажа:", ConsoleColor.Yellow);
+            string confirm = "Подтвердите создание персонажа:";
+            for (int i = 0; i < confirm.Length; i++)
+                uiManager.SetPixel(leftX + i, topY, confirm[i], ConsoleColor.Yellow);
 
-            uiManager.SetCursorPosition(centerX - 10, startY + 2);
-            uiManager.Write($"Имя: {playerName}", ConsoleColor.White);
-            uiManager.SetCursorPosition(centerX - 10, startY + 3);
-            uiManager.Write($"Предыстория: {bg.Name}", ConsoleColor.White);
-            uiManager.SetCursorPosition(centerX - 10, startY + 4);
-            uiManager.Write($"Способность: {bg.AbilityName}", ConsoleColor.Magenta);
+            string nameLine = $"Имя: {playerName}";
+            for (int i = 0; i < nameLine.Length; i++)
+                uiManager.SetPixel(leftX + i, topY + 2, nameLine[i], ConsoleColor.White);
+
+            string bgLine = $"Предыстория: {bg.Name}";
+            for (int i = 0; i < bgLine.Length; i++)
+                uiManager.SetPixel(leftX + i, topY + 3, bgLine[i], ConsoleColor.White);
+
+            string abilityLine = $"Способность: {bg.AbilityName}";
+            for (int i = 0; i < abilityLine.Length; i++)
+                uiManager.SetPixel(leftX + i, topY + 4, abilityLine[i], ConsoleColor.Magenta);
         }
 
         public override void HandleInput(ConsoleKeyInfo key)
@@ -197,7 +224,7 @@ namespace ASTRANET_Hidden_Sector.Screens
 
                 var generator = new WorldGenerator(12345);
                 var sectors = generator.GenerateSectors();
-                Game.CurrentWorld = sectors; // <--- ВАЖНО
+                Game.CurrentWorld = sectors;
                 var startSector = sectors.Where(s => !s.IsLocked).OrderBy(s => Guid.NewGuid()).FirstOrDefault() ?? sectors[0];
 
                 stateManager.ChangeScreen(new GalaxyMapScreen(stateManager, uiManager, sectors, startSector));

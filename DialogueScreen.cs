@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ASTRANET_Hidden_Sector.Core;
 using ASTRANET_Hidden_Sector.Entities.Dialogue;
+using ASTRANET_Hidden_Sector.Entities.Interior;
 
 namespace ASTRANET_Hidden_Sector.Screens
 {
@@ -11,8 +12,9 @@ namespace ASTRANET_Hidden_Sector.Screens
         private DialogueNode currentNode;
         private List<DialogueChoice> availableChoices;
         private int selectedChoiceIndex = 0;
+        private NpcEntity? npc;
 
-        public DialogueScreen(GameStateManager stateManager, UIManager uiManager, string dialogueId)
+        public DialogueScreen(GameStateManager stateManager, UIManager uiManager, string dialogueId, NpcEntity? npc = null)
             : base(stateManager, uiManager)
         {
             dialogue = DialogueManager.GetDialogue(dialogueId);
@@ -21,6 +23,7 @@ namespace ASTRANET_Hidden_Sector.Screens
                 stateManager.PopScreen();
                 return;
             }
+            this.npc = npc;
             currentNode = dialogue.Nodes[dialogue.StartNodeId];
             UpdateAvailableChoices();
         }
@@ -53,53 +56,69 @@ namespace ASTRANET_Hidden_Sector.Screens
 
             int boxWidth = 70;
             int boxHeight = 15;
-            int startX = (Console.WindowWidth - boxWidth) / 2;
-            int startY = (Console.WindowHeight - boxHeight) / 2;
+            int startX = 2;
+            int startY = 3;
 
-            DrawBox(startX, startY, boxWidth, boxHeight);
+            // Рамка
+            for (int x = startX; x <= startX + boxWidth; x++)
+            {
+                uiManager.SetPixel(x, startY, '─', ConsoleColor.Gray);
+                uiManager.SetPixel(x, startY + boxHeight, '─', ConsoleColor.Gray);
+            }
+            for (int y = startY; y <= startY + boxHeight; y++)
+            {
+                uiManager.SetPixel(startX, y, '│', ConsoleColor.Gray);
+                uiManager.SetPixel(startX + boxWidth, y, '│', ConsoleColor.Gray);
+            }
+            uiManager.SetPixel(startX, startY, '┌', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY, '┐', ConsoleColor.Gray);
+            uiManager.SetPixel(startX, startY + boxHeight, '└', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY + boxHeight, '┘', ConsoleColor.Gray);
 
-            uiManager.SetCursorPosition(startX + 2, startY + 1);
-            uiManager.Write(dialogue.NpcName, ConsoleColor.Yellow);
+            // Имя NPC
+            string npcName = dialogue.NpcName;
+            for (int i = 0; i < npcName.Length; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + 1, npcName[i], ConsoleColor.Yellow);
 
-            uiManager.SetCursorPosition(startX + 2, startY + 2);
-            uiManager.Write(new string('─', boxWidth - 4), ConsoleColor.DarkGray);
+            // Разделитель
+            for (int i = 0; i < boxWidth - 4; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + 2, '─', ConsoleColor.DarkGray);
 
+            // Текст NPC (с переносом)
             var wrappedText = WrapText(currentNode.NpcText, boxWidth - 4);
             int textY = startY + 3;
             foreach (var line in wrappedText)
             {
-                uiManager.SetCursorPosition(startX + 2, textY++);
-                uiManager.Write(line, ConsoleColor.White);
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(startX + 2 + i, textY, line[i], ConsoleColor.White);
+                textY++;
             }
 
+            // Варианты ответов
             int choicesStartY = startY + boxHeight - 3 - availableChoices.Count;
             for (int i = 0; i < availableChoices.Count; i++)
             {
-                uiManager.SetCursorPosition(startX + 2, choicesStartY + i);
+                string text = availableChoices[i].ChoiceText;
                 if (i == selectedChoiceIndex)
-                    uiManager.Write("> ", ConsoleColor.Yellow);
+                {
+                    uiManager.SetPixel(startX + 2, choicesStartY + i, '>', ConsoleColor.Yellow);
+                    for (int j = 0; j < text.Length; j++)
+                        uiManager.SetPixel(startX + 4 + j, choicesStartY + i, text[j], ConsoleColor.Cyan);
+                }
                 else
-                    uiManager.Write("  ", ConsoleColor.Gray);
-                uiManager.Write(availableChoices[i].ChoiceText, ConsoleColor.Cyan);
+                {
+                    uiManager.SetPixel(startX + 2, choicesStartY + i, ' ', ConsoleColor.Black);
+                    for (int j = 0; j < text.Length; j++)
+                        uiManager.SetPixel(startX + 4 + j, choicesStartY + i, text[j], ConsoleColor.Cyan);
+                }
             }
 
-            uiManager.SetCursorPosition(startX + 2, startY + boxHeight - 1);
-            uiManager.Write("Стрелки для выбора, Enter для подтверждения", ConsoleColor.DarkGray);
-        }
+            // Подсказка
+            string hint = "Стрелки для выбора, Enter для подтверждения";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + boxHeight - 1, hint[i], ConsoleColor.DarkGray);
 
-        private void DrawBox(int x, int y, int width, int height)
-        {
-            uiManager.SetCursorPosition(x, y);
-            uiManager.Write("┌" + new string('─', width - 2) + "┐", ConsoleColor.Gray);
-            for (int i = 1; i < height - 1; i++)
-            {
-                uiManager.SetCursorPosition(x, y + i);
-                uiManager.Write("│", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(x + width - 1, y + i);
-                uiManager.Write("│", ConsoleColor.Gray);
-            }
-            uiManager.SetCursorPosition(x, y + height - 1);
-            uiManager.Write("└" + new string('─', width - 2) + "┘", ConsoleColor.Gray);
+            uiManager.Render();
         }
 
         private string[] WrapText(string text, int maxWidth)
@@ -157,7 +176,7 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             foreach (var action in choice.Actions)
             {
-                action.Execute(stateManager, uiManager); // передаём параметры
+                action.Execute(stateManager, uiManager, npc);
             }
 
             if (string.IsNullOrEmpty(choice.NextNodeId))

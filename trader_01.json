@@ -1,0 +1,68 @@
+﻿{
+    "id": "trader_01",
+    "npcName": "Торговец",
+    "startNodeId": "greeting",
+    "nodes": {
+        "greeting": {
+            "id": "greeting",
+            "npcText": "Приветствую, путник! Чем могу помочь?",
+            "choices": [
+                {
+                    "choiceText": "Что у вас есть?",
+                    "nextNodeId": "trade",
+                    "conditions": [],
+                    "actions": []
+                },
+                {
+                    "choiceText": "Мне нужна информация",
+                    "nextNodeId": "info",
+                    "conditions": [
+                        {
+                            "type": "reputationMin",
+                            "target": "faction_traders",
+                            "value": 10
+                        }
+                    ],
+                    "actions": []
+                },
+                {
+                    "choiceText": "Пока",
+                    "nextNodeId": null,
+                    "conditions": [],
+                    "actions": []
+                }
+            ]
+        },
+        "trade": {
+            "id": "trade",
+            "npcText": "У меня есть разные товары. Что хотите?",
+            "choices": [
+                {
+                    "choiceText": "Посмотреть оружие",
+                    "nextNodeId": null,
+                    "actions": [
+                        {
+                            "type": "openShop",
+                            "target": "weapons",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "choiceText": "Вернуться",
+                    "nextNodeId": "greeting"
+                }
+            ]
+        },
+        "info": {
+            "id": "info",
+            "npcText": "Говорят, в секторе Зета пираты. Будьте осторожны.",
+            "choices": [
+                {
+                    "choiceText": "Спасибо",
+                    "nextNodeId": "greeting"
+                }
+            ]
+        }
+    }
+}

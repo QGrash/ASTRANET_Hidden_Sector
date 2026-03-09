@@ -51,42 +51,53 @@ namespace ASTRANET_Hidden_Sector.Screens
 
             int boxWidth = 64;
             int boxHeight = lines.Length + 6;
-            int startX = (Console.WindowWidth - boxWidth) / 2;
-            int startY = (Console.WindowHeight - boxHeight) / 2;
+            int startX = 2;
+            int startY = 3;
 
-            uiManager.SetCursorPosition(startX, startY);
-            uiManager.Write("┌" + new string('─', boxWidth - 2) + "┐", ConsoleColor.Gray);
-
-            for (int i = 1; i <= boxHeight - 2; i++)
+            // Рамка
+            for (int x = startX; x <= startX + boxWidth; x++)
             {
-                uiManager.SetCursorPosition(startX, startY + i);
-                uiManager.Write("│", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(startX + boxWidth - 1, startY + i);
-                uiManager.Write("│", ConsoleColor.Gray);
+                uiManager.SetPixel(x, startY, '─', ConsoleColor.Gray);
+                uiManager.SetPixel(x, startY + boxHeight, '─', ConsoleColor.Gray);
+            }
+            for (int y = startY; y <= startY + boxHeight; y++)
+            {
+                uiManager.SetPixel(startX, y, '│', ConsoleColor.Gray);
+                uiManager.SetPixel(startX + boxWidth, y, '│', ConsoleColor.Gray);
+            }
+            uiManager.SetPixel(startX, startY, '┌', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY, '┐', ConsoleColor.Gray);
+            uiManager.SetPixel(startX, startY + boxHeight, '└', ConsoleColor.Gray);
+            uiManager.SetPixel(startX + boxWidth, startY + boxHeight, '┘', ConsoleColor.Gray);
+
+            // Заголовок
+            for (int i = 0; i < title.Length; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + 1, title[i], ConsoleColor.Yellow);
+
+            // Разделитель
+            for (int i = 0; i < boxWidth - 4; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + 2, '─', ConsoleColor.DarkGray);
+
+            // Текст сообщения
+            int textY = startY + 3;
+            foreach (var line in lines)
+            {
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(startX + 2 + i, textY, line[i], ConsoleColor.White);
+                textY++;
             }
 
-            uiManager.SetCursorPosition(startX, startY + boxHeight - 1);
-            uiManager.Write("└" + new string('─', boxWidth - 2) + "┘", ConsoleColor.Gray);
+            // Подсказка
+            string hint = "Нажмите любую клавишу для продолжения...";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(startX + 2 + i, startY + boxHeight - 2, hint[i], ConsoleColor.DarkGray);
 
-            uiManager.SetCursorPosition(startX + 2, startY + 1);
-            uiManager.Write(title, ConsoleColor.Yellow);
-
-            uiManager.SetCursorPosition(startX + 2, startY + 2);
-            uiManager.Write(new string('─', boxWidth - 4), ConsoleColor.DarkGray);
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                uiManager.SetCursorPosition(startX + 2, startY + 3 + i);
-                uiManager.Write(lines[i], ConsoleColor.White);
-            }
-
-            uiManager.SetCursorPosition(startX + 2, startY + boxHeight - 2);
-            uiManager.Write("Нажмите любую клавишу для продолжения...", ConsoleColor.DarkGray);
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)
         {
-            stateManager.PopScreen(); // любая клавиша закрывает
+            stateManager.PopScreen();
         }
     }
 }

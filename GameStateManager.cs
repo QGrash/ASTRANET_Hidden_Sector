@@ -31,6 +31,8 @@ namespace ASTRANET_Hidden_Sector.Core
             }
             if (screens.Count > 0)
             {
+                Console.Clear(); // принудительная очистка
+                UIManager.ForceFullRedraw();
                 var newScreen = screens.Peek();
                 newScreen.Resume();
                 if (newScreen is GalaxyMapScreen galaxyScreen && Game.CurrentSector != null)
@@ -45,6 +47,17 @@ namespace ASTRANET_Hidden_Sector.Core
             while (screens.Count > 0)
                 screens.Pop().Exit();
             PushScreen(screen);
+        }
+
+        // Заменяет текущий верхний экран на новый (без удаления нижних)
+        public void ReplaceScreen(GameScreen newScreen)
+        {
+            if (screens.Count > 0)
+            {
+                var oldScreen = screens.Pop();
+                oldScreen.Exit();
+            }
+            PushScreen(newScreen);
         }
 
         public void HandleInput(ConsoleKeyInfo key)

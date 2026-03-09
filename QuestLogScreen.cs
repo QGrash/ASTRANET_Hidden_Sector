@@ -26,39 +26,42 @@ namespace ASTRANET_Hidden_Sector.Screens
             int leftX = 5;
             int topY = 3;
 
-            uiManager.SetCursorPosition(leftX, topY - 1);
-            uiManager.Write("=== ЖУРНАЛ КВЕСТОВ ===", ConsoleColor.Yellow);
+            string header = "=== ЖУРНАЛ КВЕСТОВ ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
-            uiManager.SetCursorPosition(leftX, topY);
-            if (!showingCompleted)
-                uiManager.Write("[Активные]  ", ConsoleColor.Cyan);
-            else
-                uiManager.Write(" Активные   ", ConsoleColor.DarkGray);
+            string tabActive = showingCompleted ? " Активные   " : "[Активные]  ";
+            string tabCompleted = showingCompleted ? "[Выполненные]" : " Выполненные ";
 
-            uiManager.SetCursorPosition(leftX + 12, topY);
-            if (showingCompleted)
-                uiManager.Write("[Выполненные]", ConsoleColor.Cyan);
-            else
-                uiManager.Write(" Выполненные ", ConsoleColor.DarkGray);
+            for (int i = 0; i < tabActive.Length; i++)
+                uiManager.SetPixel(leftX + i, topY, tabActive[i],
+                    showingCompleted ? ConsoleColor.DarkGray : ConsoleColor.Cyan);
+            for (int i = 0; i < tabCompleted.Length; i++)
+                uiManager.SetPixel(leftX + 12 + i, topY, tabCompleted[i],
+                    showingCompleted ? ConsoleColor.Cyan : ConsoleColor.DarkGray);
 
             var currentList = showingCompleted ? completedQuests : activeQuests;
             int listStartY = topY + 2;
 
             if (currentList.Count == 0)
             {
-                uiManager.SetCursorPosition(leftX, listStartY);
-                uiManager.Write("Нет квестов", ConsoleColor.DarkGray);
+                string empty = "Нет квестов";
+                for (int i = 0; i < empty.Length; i++)
+                    uiManager.SetPixel(leftX + i, listStartY, empty[i], ConsoleColor.DarkGray);
             }
             else
             {
                 for (int i = 0; i < currentList.Count; i++)
                 {
-                    uiManager.SetCursorPosition(leftX, listStartY + i);
+                    int y = listStartY + i;
                     if (i == selectedQuestIndex)
-                        uiManager.Write("> ", ConsoleColor.Yellow);
+                        uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                     else
-                        uiManager.Write("  ", ConsoleColor.Gray);
-                    uiManager.Write(currentList[i].Name, ConsoleColor.White);
+                        uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
+
+                    string name = currentList[i].Name;
+                    for (int j = 0; j < name.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y, name[j], ConsoleColor.White);
                 }
 
                 if (selectedQuestIndex < currentList.Count)
@@ -67,23 +70,30 @@ namespace ASTRANET_Hidden_Sector.Screens
                     int detailsX = 40;
                     int detailsY = listStartY;
 
-                    uiManager.SetCursorPosition(detailsX, detailsY++);
-                    uiManager.Write(quest.Description, ConsoleColor.Gray);
+                    for (int i = 0; i < quest.Description.Length; i++)
+                        uiManager.SetPixel(detailsX + i, detailsY, quest.Description[i], ConsoleColor.Gray);
+                    detailsY++;
 
                     foreach (var obj in quest.Objectives)
                     {
-                        uiManager.SetCursorPosition(detailsX, detailsY++);
                         string status = obj.IsCompleted ? "[X]" : "[ ]";
                         string text = $"{status} {obj.Description}";
                         if (!obj.IsCompleted)
                             text += $" ({obj.CurrentAmount}/{obj.RequiredAmount})";
-                        uiManager.Write(text, obj.IsCompleted ? ConsoleColor.Green : ConsoleColor.White);
+
+                        for (int i = 0; i < text.Length; i++)
+                            uiManager.SetPixel(detailsX + i, detailsY, text[i],
+                                obj.IsCompleted ? ConsoleColor.Green : ConsoleColor.White);
+                        detailsY++;
                     }
                 }
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("Tab - переключить вкладку, Backspace - назад, ESC - меню", ConsoleColor.DarkGray);
+            string hint = "Tab - переключить вкладку, Backspace - назад, ESC - меню";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)

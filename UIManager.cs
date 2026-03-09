@@ -5,77 +5,87 @@ namespace ASTRANET_Hidden_Sector.Core
 {
     public class UIManager
     {
-        private StringBuilder buffer;
+        private char[,] currentScreen;
+        private ConsoleColor[,] currentColors;
+        private char[,] previousScreen;
+        private ConsoleColor[,] previousColors;
+        private int width, height;
+        private bool fullRedraw;
 
         public UIManager()
         {
-            buffer = new StringBuilder();
+            width = Console.WindowWidth;
+            height = Console.WindowHeight;
+            currentScreen = new char[width, height];
+            currentColors = new ConsoleColor[width, height];
+            previousScreen = new char[width, height];
+            previousColors = new ConsoleColor[width, height];
+            fullRedraw = true;
         }
 
-        // Очищает экран и буфер
         public void Clear()
         {
-            buffer.Clear();
-            // ANSI-код: очистить весь экран и переместить курсор в (0,0)
-            buffer.Append("\x1b[2J\x1b[H");
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    currentScreen[x, y] = ' ';
+                    currentColors[x, y] = ConsoleColor.Black;
+                }
         }
 
-        // Устанавливает позицию для следующего вывода (будет использовано в следующем Write)
-        public void SetCursorPosition(int left, int top)
+        public void SetPixel(int x, int y, char c, ConsoleColor color)
         {
-            // Добавляем код перемещения курсора; он будет применён при следующем Write
-            buffer.Append($"\x1b[{top + 1};{left + 1}H");
-        }
-
-        // Преобразует ConsoleColor в ANSI-код цвета текста
-        private string GetAnsiColorCode(ConsoleColor color)
-        {
-            return color switch
+            if (x >= 0 && x < width && y >= 0 && y < height)
             {
-                ConsoleColor.Black => "30",
-                ConsoleColor.DarkRed => "31",
-                ConsoleColor.DarkGreen => "32",
-                ConsoleColor.DarkYellow => "33",
-                ConsoleColor.DarkBlue => "34",
-                ConsoleColor.DarkMagenta => "35",
-                ConsoleColor.DarkCyan => "36",
-                ConsoleColor.Gray => "37",
-                ConsoleColor.DarkGray => "90",
-                ConsoleColor.Red => "91",
-                ConsoleColor.Green => "92",
-                ConsoleColor.Yellow => "93",
-                ConsoleColor.Blue => "94",
-                ConsoleColor.Magenta => "95",
-                ConsoleColor.Cyan => "96",
-                ConsoleColor.White => "97",
-                _ => "39" // default
-            };
-        }
-
-        // Записывает текст в буфер с опциональным цветом
-        public void Write(string text, ConsoleColor? color = null)
-        {
-            if (color.HasValue)
-            {
-                buffer.Append($"\x1b[{GetAnsiColorCode(color.Value)}m");
-            }
-            buffer.Append(text);
-            if (color.HasValue)
-            {
-                buffer.Append("\x1b[39m"); // сброс цвета текста
+                currentScreen[x, y] = c;
+                currentColors[x, y] = color;
             }
         }
 
-        public void WriteLine(string text, ConsoleColor? color = null)
+        public void ForceFullRedraw()
         {
-            Write(text + "\n", color);
+            fullRedraw = true;
         }
 
-        // Выводит всё накопленное в буфере на экран и очищает буфер
         public void Render()
         {
-            Console.Write(buffer.ToString());
-            buffer.Clear();
+            if (fullRedraw)
+            {
+                // Полная перерисовка: выводим всё, что есть в current
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        Console.ForegroundColor = currentColors[x, y];
+                        Console.Write(currentScreen[x, y]);
+                    }
+                }
+                // Копируем current в previous
+                Array.Copy(currentScreen, previousScreen, currentScreen.Length);
+                Array.Copy(currentColors, previousColors, currentColors.Length);
+                fullRedraw = false;
+            }
+            else
+            {
+                // Инкрементальная отрисовка
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        if (currentScreen[x, y] != previousScreen[x, y] ||
+                            currentColors[x, y] != previousColors[x, y])
+                        {
+                            Console.SetCursorPosition(x, y);
+                            Console.ForegroundColor = currentColors[x, y];
+                            Console.Write(currentScreen[x, y]);
+                        }
+                    }
+                }
+                // Копируем current в previous
+                Array.Copy(currentScreen, previousScreen, currentScreen.Length);
+                Array.Copy(currentColors, previousColors, currentColors.Length);
+            }
         }
     }
 }

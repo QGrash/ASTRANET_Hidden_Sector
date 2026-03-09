@@ -23,24 +23,32 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             uiManager.Clear();
 
-            int centerX = Console.WindowWidth / 2;
-            int startY = Console.WindowHeight / 2 - menuItems.Count / 2;
+            int leftX = 5;
+            int topY = 3;
 
-            uiManager.SetCursorPosition(centerX - 10, startY - 2);
-            uiManager.Write("=== ПАУЗА ===", ConsoleColor.Yellow);
+            string header = "=== ПАУЗА ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
             for (int i = 0; i < menuItems.Count; i++)
             {
-                uiManager.SetCursorPosition(centerX - 10, startY + i);
+                int y = topY + i;
                 if (i == selectedIndex)
-                    uiManager.Write("> ", ConsoleColor.Yellow);
+                    uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                 else
-                    uiManager.Write("  ", ConsoleColor.Gray);
-                uiManager.Write(menuItems[i], ConsoleColor.White);
+                    uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
+
+                string text = menuItems[i];
+                for (int j = 0; j < text.Length; j++)
+                    uiManager.SetPixel(leftX + 2 + j, y, text[j],
+                        i == selectedIndex ? ConsoleColor.Yellow : ConsoleColor.White);
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ для выбора, Enter - подтвердить, Esc - вернуться в игру", ConsoleColor.DarkGray);
+            string hint = "↑/↓ для выбора, Enter - подтвердить, Esc - вернуться в игру";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)

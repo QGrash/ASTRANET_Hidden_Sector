@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET_Hidden_Sector\\ASTRANET_Hidden_Sector.csproj": {}
+    "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\ASTRANET_Hidden_Sector.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET_Hidden_Sector\\ASTRANET_Hidden_Sector.csproj": {
+    "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\ASTRANET_Hidden_Sector.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET_Hidden_Sector\\ASTRANET_Hidden_Sector.csproj",
+        "projectUniqueName": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\ASTRANET_Hidden_Sector.csproj",
         "projectName": "ASTRANET_Hidden_Sector",
-        "projectPath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET_Hidden_Sector\\ASTRANET_Hidden_Sector.csproj",
+        "projectPath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\ASTRANET_Hidden_Sector.csproj",
         "packagesPath": "C:\\Users\\kotov\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET_Hidden_Sector\\obj\\",
+        "outputPath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

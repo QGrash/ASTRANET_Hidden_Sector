@@ -2,6 +2,7 @@
 using ASTRANET_Hidden_Sector.Data;
 using ASTRANET_Hidden_Sector.Entities;
 using ASTRANET_Hidden_Sector.Entities.Faction;
+using ASTRANET_Hidden_Sector.Entities.Interior;
 using ASTRANET_Hidden_Sector.Entities.Quest;
 using ASTRANET_Hidden_Sector.World;
 using System;
@@ -34,46 +35,55 @@ namespace ASTRANET_Hidden_Sector.Screens
         {
             uiManager.Clear();
 
-            int centerX = Console.WindowWidth / 2;
-            int startY = Console.WindowHeight / 2 - saves.Count * 3 / 2;
+            int leftX = 5;
+            int topY = 3;
 
-            uiManager.SetCursorPosition(centerX - 10, startY - 3);
-            uiManager.Write("=== ЗАГРУЗКА ИГРЫ ===", ConsoleColor.Yellow);
+            string header = "=== ЗАГРУЗКА ИГРЫ ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
             for (int i = 0; i < saves.Count; i++)
             {
                 var save = saves[i];
-                int lineY = startY + i * 3;
+                int y = topY + 1 + i * 3;
 
-                uiManager.SetCursorPosition(centerX - 30, lineY);
+                // Маркер выбора
                 if (i == selectedIndex)
-                    uiManager.Write("> ", ConsoleColor.Yellow);
+                    uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
                 else
-                    uiManager.Write("  ", ConsoleColor.Gray);
+                    uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
 
                 if (save.PlayerName == "Нет сохранений")
                 {
-                    uiManager.Write(save.PlayerName, ConsoleColor.DarkGray);
+                    for (int j = 0; j < save.PlayerName.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y, save.PlayerName[j], ConsoleColor.DarkGray);
                 }
                 else
                 {
-                    uiManager.Write($"{save.PlayerName} (ур. {save.Level})", ConsoleColor.White);
-                    uiManager.SetCursorPosition(centerX - 20, lineY + 1);
-                    uiManager.Write($"Сектор: {save.Sector} | Система: {save.System}", ConsoleColor.Cyan);
-                    uiManager.SetCursorPosition(centerX - 20, lineY + 2);
-                    uiManager.Write($"Сохранено: {save.SaveTime:dd.MM.yyyy HH:mm}", ConsoleColor.DarkGray);
+                    string line1 = $"{save.PlayerName} (ур. {save.Level})";
+                    for (int j = 0; j < line1.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y, line1[j], ConsoleColor.White);
+
+                    string line2 = $"Сектор: {save.Sector} | Система: {save.System}";
+                    for (int j = 0; j < line2.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y + 1, line2[j], ConsoleColor.Cyan);
+
+                    string line3 = $"Сохранено: {save.SaveTime:dd.MM.yyyy HH:mm}";
+                    for (int j = 0; j < line3.Length; j++)
+                        uiManager.SetPixel(leftX + 2 + j, y + 2, line3[j], ConsoleColor.DarkGray);
                 }
             }
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 3);
+            string hint;
             if (saves.Count > 0 && saves[0].PlayerName != "Нет сохранений")
-            {
-                uiManager.Write("↑/↓ - выбор, Enter - загрузить, Del - удалить, Esc - назад", ConsoleColor.DarkGray);
-            }
+                hint = "↑/↓ - выбор, Enter - загрузить, Del - удалить, Esc - назад";
             else
-            {
-                uiManager.Write("Esc - назад", ConsoleColor.DarkGray);
-            }
+                hint = "Esc - назад";
+
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 3, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         public override void HandleInput(ConsoleKeyInfo key)
@@ -164,7 +174,6 @@ namespace ASTRANET_Hidden_Sector.Screens
             {
                 var sectors = new List<Sector>();
                 var sectorDict = new Dictionary<string, Sector>();
-
                 foreach (var savedSector in worldData.Sectors)
                 {
                     var sector = new Sector(savedSector, sectorDict);
@@ -179,9 +188,7 @@ namespace ASTRANET_Hidden_Sector.Screens
                     foreach (var connName in savedSector.ConnectedSectorIds)
                     {
                         if (sectorDict.TryGetValue(connName, out var connSector))
-                        {
                             sector.ConnectedSectors.Add(connSector);
-                        }
                     }
                 }
 
@@ -206,9 +213,7 @@ namespace ASTRANET_Hidden_Sector.Screens
                         foreach (var connName in savedSystem.ConnectedSystemNames)
                         {
                             if (systemDict.TryGetValue(connName, out var connSystem))
-                            {
                                 system.ConnectedSystems.Add(connSystem);
-                            }
                         }
                     }
 
@@ -225,6 +230,24 @@ namespace ASTRANET_Hidden_Sector.Screens
 
                 Game.CurrentSector = targetSector;
                 Game.CurrentSystem = targetSystem;
+
+                if (playerData.InInterior && !string.IsNullOrEmpty(playerData.CurrentInteriorId))
+                {
+                    var interiorState = worldData.Interiors?.FirstOrDefault(i => i.TemplateId == playerData.CurrentInteriorId);
+                    if (interiorState != null)
+                    {
+                        var template = InteriorLoader.GetTemplate(playerData.CurrentInteriorId);
+                        if (template != null)
+                        {
+                            var interiorMap = InteriorMap.LoadFromTemplate(template);
+                            interiorMap.RestoreState(interiorState);
+                            interiorMap.PlayerX = playerData.InteriorPlayerX;
+                            interiorMap.PlayerY = playerData.InteriorPlayerY;
+                            stateManager.ChangeScreen(new InteriorMapScreen(stateManager, uiManager, interiorMap, template.Name));
+                            return;
+                        }
+                    }
+                }
 
                 if (worldData.CurrentScreen == "Local" && targetSystem != null)
                 {

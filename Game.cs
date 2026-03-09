@@ -11,6 +11,7 @@ namespace ASTRANET_Hidden_Sector.Core
 {
     public class Game
     {
+
         private GameStateManager stateManager;
         private InputHandler inputHandler;
         private UIManager uiManager;
@@ -42,7 +43,7 @@ namespace ASTRANET_Hidden_Sector.Core
                 try
                 {
                     inputHandler.ProcessInput();
-                    stateManager.Update(0.05f);
+                    stateManager.Update(0.05f); // примерно 50 мс
                     uiManager.Clear();
                     stateManager.Render();
                     uiManager.Render();
@@ -50,8 +51,7 @@ namespace ASTRANET_Hidden_Sector.Core
                 }
                 catch (Exception ex)
                 {
-                    // Здесь можно записать в лог, но не выводим на экран
-                   
+                    // здесь можно записать в лог, но не выводим на экран
                 }
             }
         }

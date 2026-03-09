@@ -1,4 +1,5 @@
-﻿using ASTRANET_Hidden_Sector.Core;
+﻿using System;
+using ASTRANET_Hidden_Sector.Core;
 
 namespace ASTRANET_Hidden_Sector
 {
@@ -6,6 +7,9 @@ namespace ASTRANET_Hidden_Sector
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.InputEncoding = System.Text.Encoding.UTF8;
+
             Console.Title = "ASTRANET: Hidden Sector";
             Console.CursorVisible = false;
 

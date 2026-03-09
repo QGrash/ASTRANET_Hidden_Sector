@@ -23,19 +23,16 @@ namespace ASTRANET_Hidden_Sector.Screens
             int leftX = 5;
             int topY = 3;
 
-            // Заголовок
-            uiManager.SetCursorPosition(leftX, topY - 1);
-            uiManager.Write("=== РЕПУТАЦИЯ И ФРАКЦИИ ===", ConsoleColor.Yellow);
+            string header = "=== РЕПУТАЦИЯ И ФРАКЦИИ ===";
+            for (int i = 0; i < header.Length; i++)
+                uiManager.SetPixel(leftX + i, topY - 1, header[i], ConsoleColor.Yellow);
 
-            // Список фракций
-            int listStartY = topY + 1;
             for (int i = 0; i < factions.Count; i++)
             {
                 var faction = factions[i];
                 int rep = FactionManager.GetReputation(faction.Id);
                 var level = FactionManager.GetReputationLevel(faction.Id);
 
-                // Выбор цвета для уровня
                 ConsoleColor levelColor = level switch
                 {
                     ReputationLevel.Hostile => ConsoleColor.Red,
@@ -46,38 +43,46 @@ namespace ASTRANET_Hidden_Sector.Screens
                     _ => ConsoleColor.Gray
                 };
 
-                // Выделение выбранной строки
+                int y = topY + i;
                 if (i == selectedIndex)
-                {
-                    uiManager.SetCursorPosition(leftX - 2, listStartY + i);
-                    uiManager.Write(">", ConsoleColor.Yellow);
-                }
+                    uiManager.SetPixel(leftX, y, '>', ConsoleColor.Yellow);
+                else
+                    uiManager.SetPixel(leftX, y, ' ', ConsoleColor.Black);
 
-                uiManager.SetCursorPosition(leftX, listStartY + i);
-                uiManager.Write($"{faction.Name} [{rep}]", levelColor);
+                string line = $"{faction.Name} [{rep}]";
+                for (int j = 0; j < line.Length; j++)
+                    uiManager.SetPixel(leftX + 2 + j, y, line[j], levelColor);
             }
 
-            // Детали выбранной фракции
             if (selectedIndex >= 0 && selectedIndex < factions.Count)
             {
                 var faction = factions[selectedIndex];
                 int rep = FactionManager.GetReputation(faction.Id);
                 var level = FactionManager.GetReputationLevel(faction.Id);
 
-                int detailsX = 40;
-                int detailsY = topY + 1;
+                int detailsX = leftX + 40;
+                int detailsY = topY;
 
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write($"Описание: {faction.Description}", ConsoleColor.Gray);
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write($"Репутация: {rep}", ConsoleColor.White);
-                uiManager.SetCursorPosition(detailsX, detailsY++);
-                uiManager.Write($"Уровень: {level}", GetLevelColor(level));
+                string desc = $"Описание: {faction.Description}";
+                for (int i = 0; i < desc.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, desc[i], ConsoleColor.Gray);
+                detailsY++;
+
+                string repStr = $"Репутация: {rep}";
+                for (int i = 0; i < repStr.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, repStr[i], ConsoleColor.White);
+                detailsY++;
+
+                string levelStr = $"Уровень: {level}";
+                for (int i = 0; i < levelStr.Length; i++)
+                    uiManager.SetPixel(detailsX + i, detailsY, levelStr[i], GetLevelColor(level));
             }
 
-            // Подсказки
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ - выбор, Esc/Backspace - назад", ConsoleColor.DarkGray);
+            string hint = "↑/↓ - выбор, Esc/Backspace - назад";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         private ConsoleColor GetLevelColor(ReputationLevel level)

@@ -8,11 +8,9 @@ namespace ASTRANET_Hidden_Sector.Screens
 {
     public class GlobalMapScreen : GameScreen
     {
-        public Sector CurrentSector => currentSector;
         private Sector currentSector;
         private StarSystem currentSystem;
         private int selectedSystemIndex;
-        public StarSystem CurrentSystem => currentSystem;
 
         private struct Star
         {
@@ -29,6 +27,9 @@ namespace ASTRANET_Hidden_Sector.Screens
         private const int MAP_TOP = 5;
         private const int MAP_WIDTH = 50;
         private const int MAP_HEIGHT = 20;
+
+        public Sector CurrentSector => currentSector;
+        public StarSystem CurrentSystem => currentSystem;
 
         public GlobalMapScreen(GameStateManager stateManager, UIManager uiManager, Sector sector, StarSystem startSystem)
             : base(stateManager, uiManager)
@@ -51,10 +52,11 @@ namespace ASTRANET_Hidden_Sector.Screens
         public override void Render()
         {
             uiManager.Clear();
+
             DrawStars();
 
             var systems = currentSector.Systems;
-            DrawSectorFrame(currentSector.Name, currentSector.IsLocked);
+            DrawSectorFrame();
 
             var screenPositions = new List<(int x, int y, StarSystem sys)>();
             foreach (var sys in systems)
@@ -82,30 +84,28 @@ namespace ASTRANET_Hidden_Sector.Screens
 
                 if (isSelected)
                 {
-                    uiManager.SetCursorPosition(x - 1, y);
-                    uiManager.Write("[", ConsoleColor.Yellow);
-                    uiManager.SetCursorPosition(x + 1, y);
-                    uiManager.Write("]", ConsoleColor.Yellow);
+                    uiManager.SetPixel(x - 1, y, '[', ConsoleColor.Yellow);
+                    uiManager.SetPixel(x + 1, y, ']', ConsoleColor.Yellow);
                 }
 
-                uiManager.SetCursorPosition(x, y);
-                uiManager.Write(symbol.ToString(), color);
+                uiManager.SetPixel(x, y, symbol, color);
             }
 
             if (currentSystem != null)
             {
                 int curX = MAP_LEFT + (int)((currentSystem.X / 100.0) * MAP_WIDTH);
                 int curY = MAP_TOP + (int)((currentSystem.Y / 100.0) * MAP_HEIGHT);
-                uiManager.SetCursorPosition(curX - 1, curY - 1);
-                uiManager.Write("[", ConsoleColor.Green);
-                uiManager.SetCursorPosition(curX + 1, curY);
-                uiManager.Write("]", ConsoleColor.Green);
+                uiManager.SetPixel(curX - 1, curY - 1, '[', ConsoleColor.Green);
+                uiManager.SetPixel(curX + 1, curY, ']', ConsoleColor.Green);
             }
 
             DrawInfoPanel(screenPositions);
 
-            uiManager.SetCursorPosition(2, Console.WindowHeight - 2);
-            uiManager.Write("↑/↓ - выбор системы, Enter - переход (если есть связь), G - карта галактики, I - инвентарь, C - персонаж, B - корабль, J - квесты, Backspace - назад, ESC - меню", ConsoleColor.DarkGray);
+            string hint = "↑/↓/←/→ - выбор системы, Enter - переход (если есть связь), G - карта галактики, I - инвентарь, C - персонаж, B - корабль, J - квесты, Backspace - назад, ESC - меню";
+            for (int i = 0; i < hint.Length; i++)
+                uiManager.SetPixel(2 + i, Console.WindowHeight - 2, hint[i], ConsoleColor.DarkGray);
+
+            uiManager.Render();
         }
 
         private void DrawStars()
@@ -114,42 +114,35 @@ namespace ASTRANET_Hidden_Sector.Screens
             for (int i = 0; i < stars.Length; i++)
             {
                 int y = (stars[i].Y + starOffset) % Console.WindowHeight;
-                uiManager.SetCursorPosition(stars[i].X, y);
-                uiManager.Write(stars[i].Symbol.ToString(), stars[i].Color);
+                uiManager.SetPixel(stars[i].X, y, stars[i].Symbol, stars[i].Color);
             }
         }
 
-        private void DrawSectorFrame(string sectorName, bool isLocked)
+        private void DrawSectorFrame()
         {
-            for (int x = MAP_LEFT - 1; x <= MAP_LEFT + MAP_WIDTH; x++)
-            {
-                uiManager.SetCursorPosition(x, MAP_TOP - 1);
-                uiManager.Write("─", ConsoleColor.DarkGray);
-                uiManager.SetCursorPosition(x, MAP_TOP + MAP_HEIGHT);
-                uiManager.Write("─", ConsoleColor.DarkGray);
-            }
-            for (int y = MAP_TOP - 1; y <= MAP_TOP + MAP_HEIGHT; y++)
-            {
-                uiManager.SetCursorPosition(MAP_LEFT - 1, y);
-                uiManager.Write("│", ConsoleColor.DarkGray);
-                uiManager.SetCursorPosition(MAP_LEFT + MAP_WIDTH, y);
-                uiManager.Write("│", ConsoleColor.DarkGray);
-            }
-            uiManager.SetCursorPosition(MAP_LEFT - 1, MAP_TOP - 1);
-            uiManager.Write("┌", ConsoleColor.DarkGray);
-            uiManager.SetCursorPosition(MAP_LEFT + MAP_WIDTH, MAP_TOP - 1);
-            uiManager.Write("┐", ConsoleColor.DarkGray);
-            uiManager.SetCursorPosition(MAP_LEFT - 1, MAP_TOP + MAP_HEIGHT);
-            uiManager.Write("└", ConsoleColor.DarkGray);
-            uiManager.SetCursorPosition(MAP_LEFT + MAP_WIDTH, MAP_TOP + MAP_HEIGHT);
-            uiManager.Write("┘", ConsoleColor.DarkGray);
+            int left = MAP_LEFT - 1;
+            int right = left + MAP_WIDTH + 1;
+            int top = MAP_TOP - 1;
+            int bottom = top + MAP_HEIGHT + 1;
 
-            uiManager.SetCursorPosition(MAP_LEFT, MAP_TOP - 2);
-            uiManager.Write($"Сектор: ", ConsoleColor.Cyan);
-            if (isLocked)
-                uiManager.Write(sectorName, ConsoleColor.Red);
-            else
-                uiManager.Write(sectorName, ConsoleColor.Green);
+            for (int x = left + 1; x < right; x++)
+            {
+                uiManager.SetPixel(x, top, '─', ConsoleColor.DarkGray);
+                uiManager.SetPixel(x, bottom, '─', ConsoleColor.DarkGray);
+            }
+            for (int y = top + 1; y < bottom; y++)
+            {
+                uiManager.SetPixel(left, y, '│', ConsoleColor.DarkGray);
+                uiManager.SetPixel(right, y, '│', ConsoleColor.DarkGray);
+            }
+            uiManager.SetPixel(left, top, '┌', ConsoleColor.DarkGray);
+            uiManager.SetPixel(right, top, '┐', ConsoleColor.DarkGray);
+            uiManager.SetPixel(left, bottom, '└', ConsoleColor.DarkGray);
+            uiManager.SetPixel(right, bottom, '┘', ConsoleColor.DarkGray);
+
+            string name = $"Сектор: {currentSector.Name}";
+            for (int i = 0; i < name.Length; i++)
+                uiManager.SetPixel(MAP_LEFT + i, MAP_TOP - 2, name[i], ConsoleColor.Cyan);
         }
 
         private void DrawConnections(List<(int x, int y, StarSystem sys)> positions)
@@ -159,7 +152,7 @@ namespace ASTRANET_Hidden_Sector.Screens
                 var (x1, y1, sys1) = positions[i];
                 foreach (var conn in sys1.ConnectedSystems)
                 {
-                    var connPos = positions.FirstOrDefault(p => p.sys == conn);
+                    var connPos = positions.Find(p => p.sys == conn);
                     if (connPos.sys != null)
                     {
                         DrawLine(x1, y1, connPos.x, connPos.y);
@@ -180,8 +173,7 @@ namespace ASTRANET_Hidden_Sector.Screens
             {
                 if (!IsSystemAt(x1, y1))
                 {
-                    uiManager.SetCursorPosition(x1, y1);
-                    uiManager.Write("·", ConsoleColor.DarkGray);
+                    uiManager.SetPixel(x1, y1, '·', ConsoleColor.DarkGray);
                 }
 
                 if (x1 == x2 && y1 == y2) break;
@@ -232,38 +224,62 @@ namespace ASTRANET_Hidden_Sector.Screens
             int infoX = MAP_LEFT + MAP_WIDTH + 5;
             int infoY = MAP_TOP;
 
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write("=== ИНФОРМАЦИЯ ===", ConsoleColor.Yellow);
+            string line = "=== ИНФОРМАЦИЯ ===";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Yellow);
+            infoY++;
 
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Текущий сектор: ", ConsoleColor.White);
-            uiManager.Write(currentSector.Name, currentSector.IsLocked ? ConsoleColor.Red : ConsoleColor.Green);
+            line = $"Текущий сектор: {currentSector.Name}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.White);
+            infoY++;
 
-            uiManager.SetCursorPosition(infoX, infoY++);
-            uiManager.Write($"Текущая система: {currentSystem.Name}", ConsoleColor.Green);
+            line = $"Текущая система: {currentSystem?.Name ?? "нет"}";
+            for (int i = 0; i < line.Length; i++)
+                uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Green);
+            infoY++;
 
             if (selectedSystemIndex >= 0 && selectedSystemIndex < positions.Count)
             {
                 var sys = positions[selectedSystemIndex].sys;
                 infoY++;
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write("Выбранная система:", ConsoleColor.Yellow);
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Название: {sys.Name}", ConsoleColor.White);
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Тип: {sys.Type}", GetSystemColor(sys.Type));
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Координаты: {sys.X}, {sys.Y}", ConsoleColor.DarkGray);
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write("Связи:", ConsoleColor.Cyan);
+                line = "Выбранная система:";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Yellow);
+                infoY++;
+
+                line = $"Название: {sys.Name}";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.White);
+                infoY++;
+
+                line = $"Тип: {sys.Type}";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i], GetSystemColor(sys.Type));
+                infoY++;
+
+                line = $"Координаты: {sys.X}, {sys.Y}";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.DarkGray);
+                infoY++;
+
+                line = "Связи:";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Cyan);
+                infoY++;
+
                 foreach (var conn in sys.ConnectedSystems)
                 {
-                    uiManager.SetCursorPosition(infoX + 2, infoY++);
-                    uiManager.Write(conn.Name, ConsoleColor.Gray);
+                    line = $"  {conn.Name}";
+                    for (int i = 0; i < line.Length; i++)
+                        uiManager.SetPixel(infoX + i, infoY, line[i], ConsoleColor.Gray);
+                    infoY++;
                 }
-                uiManager.SetCursorPosition(infoX, infoY++);
-                uiManager.Write($"Соединена с текущей: {(currentSystem.ConnectedSystems.Contains(sys) ? "ДА" : "НЕТ")}",
-                    currentSystem.ConnectedSystems.Contains(sys) ? ConsoleColor.Green : ConsoleColor.Red);
+
+                line = $"Соединена с текущей: {(currentSystem != null && currentSystem.ConnectedSystems.Contains(sys) ? "ДА" : "НЕТ")}";
+                for (int i = 0; i < line.Length; i++)
+                    uiManager.SetPixel(infoX + i, infoY, line[i],
+                        (currentSystem != null && currentSystem.ConnectedSystems.Contains(sys)) ? ConsoleColor.Green : ConsoleColor.Red);
             }
         }
 
@@ -274,29 +290,91 @@ namespace ASTRANET_Hidden_Sector.Screens
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow:
-                    if (systems.Count > 0)
-                        selectedSystemIndex = (selectedSystemIndex - 1 + systems.Count) % systems.Count;
+                    MoveSelectionVertical(systems, -1);
                     break;
                 case ConsoleKey.DownArrow:
-                    if (systems.Count > 0)
-                        selectedSystemIndex = (selectedSystemIndex + 1) % systems.Count;
+                    MoveSelectionVertical(systems, 1);
                     break;
                 case ConsoleKey.LeftArrow:
+                    MoveSelectionHorizontal(systems, -1);
+                    break;
                 case ConsoleKey.RightArrow:
-                    // Ничего не делаем, можно оставить для совместимости или игнорировать
+                    MoveSelectionHorizontal(systems, 1);
                     break;
                 case ConsoleKey.G:
-                    Game.CurrentSystem = null; // <-- добавить
-                    stateManager.PopScreen();
-                    break;
-                case ConsoleKey.Backspace:
-                    Game.CurrentSystem = null; // <-- добавить
                     stateManager.PopScreen();
                     break;
                 case ConsoleKey.Enter:
                     TryEnterSelectedSystem();
                     break;
+                case ConsoleKey.Backspace:
+                    stateManager.PopScreen();
+                    break;
             }
+        }
+
+        private void MoveSelectionVertical(List<StarSystem> systems, int direction)
+        {
+            if (systems.Count == 0) return;
+            int currentY = systems[selectedSystemIndex].Y;
+            int bestIndex = -1;
+            int bestDistX = int.MaxValue;
+            for (int i = 0; i < systems.Count; i++)
+            {
+                if (i == selectedSystemIndex) continue;
+                if (direction == -1 && systems[i].Y < currentY)
+                {
+                    int dx = Math.Abs(systems[i].X - systems[selectedSystemIndex].X);
+                    if (dx < bestDistX)
+                    {
+                        bestDistX = dx;
+                        bestIndex = i;
+                    }
+                }
+                else if (direction == 1 && systems[i].Y > currentY)
+                {
+                    int dx = Math.Abs(systems[i].X - systems[selectedSystemIndex].X);
+                    if (dx < bestDistX)
+                    {
+                        bestDistX = dx;
+                        bestIndex = i;
+                    }
+                }
+            }
+            if (bestIndex != -1)
+                selectedSystemIndex = bestIndex;
+        }
+
+        private void MoveSelectionHorizontal(List<StarSystem> systems, int direction)
+        {
+            if (systems.Count == 0) return;
+            int currentX = systems[selectedSystemIndex].X;
+            int bestIndex = -1;
+            int bestDistY = int.MaxValue;
+            for (int i = 0; i < systems.Count; i++)
+            {
+                if (i == selectedSystemIndex) continue;
+                if (direction == -1 && systems[i].X < currentX)
+                {
+                    int dy = Math.Abs(systems[i].Y - systems[selectedSystemIndex].Y);
+                    if (dy < bestDistY)
+                    {
+                        bestDistY = dy;
+                        bestIndex = i;
+                    }
+                }
+                else if (direction == 1 && systems[i].X > currentX)
+                {
+                    int dy = Math.Abs(systems[i].Y - systems[selectedSystemIndex].Y);
+                    if (dy < bestDistY)
+                    {
+                        bestDistY = dy;
+                        bestIndex = i;
+                    }
+                }
+            }
+            if (bestIndex != -1)
+                selectedSystemIndex = bestIndex;
         }
 
         private void TryEnterSelectedSystem()
@@ -319,10 +397,19 @@ namespace ASTRANET_Hidden_Sector.Screens
                 return;
             }
 
-            currentSystem = targetSystem;
-            selectedSystemIndex = currentSector.Systems.IndexOf(currentSystem);
+            string fromName = currentSystem.Name;
+            string toName = targetSystem.Name;
 
-            stateManager.PushScreen(new LocalMapScreen(stateManager, uiManager, targetSystem));
+            Action onJumpComplete = () =>
+            {
+                currentSystem = targetSystem;
+                selectedSystemIndex = currentSector.Systems.IndexOf(currentSystem);
+                Game.CurrentSystem = currentSystem;
+                // Заменяем экран анимации на локальную карту
+                stateManager.ReplaceScreen(new LocalMapScreen(stateManager, uiManager, targetSystem));
+            };
+
+            stateManager.PushScreen(new HyperJumpScreen(stateManager, uiManager, fromName, toName, onJumpComplete));
         }
     }
 }
