@@ -1,0 +1,22 @@
+﻿{
+    "Id": "find_artifact",
+    "Name": "Древний артефакт",
+    "Description": "Найдите артефакт в аномальной системе Гамма и принесите его в Академию.",
+    "Objectives": [
+        {
+            "Type": "Collect",
+            "TargetId": "artifact_ancient",
+            "Amount": 1,
+            "Description": "Найти древний артефакт"
+        }
+    ],
+    "Rewards": {
+        "Credits": 1000,
+        "Experience": 200,
+        "Reputation": {
+            "SolarFederation": 30,
+            "GreenCrossFoundation": 50
+        },
+        "Items": [ "data_core", "rare_earth", "rare_earth" ]
+    }
+}

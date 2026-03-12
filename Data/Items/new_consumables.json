@@ -1,0 +1,25 @@
+﻿[
+    {
+        "Id": "medkit_advanced",
+        "Name": "Продвинутый медицинский набор",
+        "Description": "Восстанавливает 60 HP и лечит радиацию.",
+        "Weight": 0.2,
+        "BasePrice": 120,
+        "ItemType": "Consumable",
+        "Effects": {
+            "heal": 60
+        }
+    },
+    {
+        "Id": "stim_combat",
+        "Name": "Боевой стимулятор",
+        "Description": "Временно повышает силу и ловкость на 2.",
+        "Weight": 0.1,
+        "BasePrice": 80,
+        "ItemType": "Consumable",
+        "Effects": {
+            "strength": 2,
+            "dexterity": 2
+        }
+    }
+]

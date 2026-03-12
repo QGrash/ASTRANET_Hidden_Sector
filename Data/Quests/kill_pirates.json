@@ -1,0 +1,21 @@
+﻿{
+    "Id": "kill_pirates",
+    "Name": "Зачистка пиратов",
+    "Description": "Уничтожьте пиратский корабль «Кровавый рассвет» в системе Альфа.",
+    "Objectives": [
+        {
+            "Type": "Kill",
+            "TargetId": "pirate_ship",
+            "Amount": 1,
+            "Description": "Уничтожить пиратский корабль"
+        }
+    ],
+    "Rewards": {
+        "Credits": 500,
+        "Experience": 100,
+        "Reputation": {
+            "SolarFederation": 20
+        },
+        "Items": [ "medkit_advanced", "rare_earth" ]
+    }
+}

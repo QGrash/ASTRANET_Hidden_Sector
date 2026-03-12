@@ -1,0 +1,55 @@
+﻿{
+    "Id": "pyrotech_engineer",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Имперские технологии лучшие. Хотите взглянуть на наши модули?",
+            "Choices": [
+                {
+                    "Text": "Да, покажи.",
+                    "NextNodeId": "shop",
+                    "Actions": [
+                        {
+                            "Type": "OpenShop",
+                            "TargetId": "pyrotech_shop"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Нет, я ищу информацию о секторе Зета.",
+                    "NextNodeId": "zeta"
+                },
+                {
+                    "Text": "Мне ничего не нужно.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "zeta": {
+            "Id": "zeta",
+            "NpcText": "Зета? Это запретная зона. Говорят, там древние артефакты. Но империя не разрешает туда соваться.",
+            "Choices": [
+                {
+                    "Text": "Понятно. Спасибо.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "shop": {
+            "Id": "shop",
+            "NpcText": "Выбирай.",
+            "Choices": [
+                {
+                    "Text": "Вернуться",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Да пребудет с вами огонь.",
+            "Choices": []
+        }
+    }
+}

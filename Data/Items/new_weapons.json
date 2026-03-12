@@ -1,0 +1,45 @@
+﻿[
+    {
+        "Id": "plasma_cannon",
+        "Name": "Плазменная пушка",
+        "Description": "Тяжёлое корабельное орудие, стреляет сгустками плазмы. Огромный урон, но требует много энергии.",
+        "Weight": 8.0,
+        "BasePrice": 1500,
+        "ItemType": "Module",
+        "ModuleType": "Weapon",
+        "DamageMin": 25,
+        "DamageMax": 35,
+        "Accuracy": -10,
+        "EnergyCost": 25,
+        "ShotsPerTurn": 1,
+        "CritChance": 0.15,
+        "CritMultiplier": 2.5,
+        "DamageType": "Plasma"
+    },
+    {
+        "Id": "ion_cannon",
+        "Name": "Ионная пушка",
+        "Description": "Выводит из строя вражеские щиты и системы.",
+        "Weight": 5.0,
+        "BasePrice": 1200,
+        "ItemType": "Module",
+        "ModuleType": "Weapon",
+        "DamageMin": 10,
+        "DamageMax": 15,
+        "Accuracy": 10,
+        "EnergyCost": 15,
+        "ShotsPerTurn": 2,
+        "CritChance": 0.1,
+        "CritMultiplier": 1.8,
+        "DamageType": "Ion"
+    },
+    {
+        "Id": "point_defense",
+        "Name": "Турель ПВО",
+        "Description": "Автоматически сбивает вражеские ракеты и дроны (пассивная способность).",
+        "Weight": 3.0,
+        "BasePrice": 800,
+        "ItemType": "Module",
+        "ModuleType": "Utility"
+    }
+]
