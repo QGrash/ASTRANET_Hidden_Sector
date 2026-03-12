@@ -1,0 +1,11 @@
+{
+  "Id": "grenade_frag",
+  "Name": "Осколочная граната",
+  "Description": "Наносит урон всем в радиусе.",
+  "Weight": 0.5,
+  "BasePrice": 80,
+  "ItemType": "consumable",
+  "Effects": {
+    "damage": 40
+  }
+}

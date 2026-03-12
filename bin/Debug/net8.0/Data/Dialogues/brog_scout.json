@@ -1,0 +1,66 @@
+﻿{
+    "Id": "brog_scout",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Ты чужак. Зачем пришёл?",
+            "Choices": [
+                {
+                    "Text": "Мирно. Ищу информацию.",
+                    "NextNodeId": "info"
+                },
+                {
+                    "Text": "Убирайся с дороги!",
+                    "NextNodeId": "hostile"
+                }
+            ]
+        },
+        "info": {
+            "Id": "info",
+            "NpcText": "Информация стоит денег. У тебя есть 500 кредитов?",
+            "Conditions": [
+                {
+                    "Type": "HasCredits",
+                    "Value": 500
+                }
+            ],
+            "Choices": [
+                {
+                    "Text": "Вот они.",
+                    "NextNodeId": "tell",
+                    "Actions": [
+                        {
+                            "Type": "RemoveCredits",
+                            "Amount": 500
+                        }
+                    ]
+                },
+                {
+                    "Text": "Нет, дорого.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "tell": {
+            "Id": "tell",
+            "NpcText": "Слышал, что в секторе Зета пробудилось что-то древнее. Наши шаманы чувствуют зло.",
+            "Choices": [
+                {
+                    "Text": "Спасибо за информацию.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "hostile": {
+            "Id": "hostile",
+            "NpcText": "Ты пожалеешь!",
+            "Choices": []
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Уходи.",
+            "Choices": []
+        }
+    }
+}

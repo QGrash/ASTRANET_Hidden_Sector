@@ -1,0 +1,42 @@
+﻿[
+    {
+        "Id": "fragment_coord",
+        "Name": "Фрагмент координат",
+        "Description": "Часть зашифрованных координат сектора Зета.",
+        "Weight": 0.5,
+        "BasePrice": 0,
+        "ItemType": "Quest"
+    },
+    {
+        "Id": "artifact_ancient",
+        "Name": "Древний артефакт",
+        "Description": "Неизвестного происхождения, излучает слабую энергию.",
+        "Weight": 2.0,
+        "BasePrice": 0,
+        "ItemType": "Quest"
+    },
+    {
+        "Id": "data_core",
+        "Name": "Информационное ядро",
+        "Description": "Содержит важные данные для одной из фракций.",
+        "Weight": 0.3,
+        "BasePrice": 0,
+        "ItemType": "Quest"
+    },
+    {
+        "Id": "fragment_coord_zeta",
+        "Name": "Фрагмент координат Зета",
+        "Description": "Часть зашифрованных координат сектора Зета.",
+        "Weight": 0.5,
+        "BasePrice": 0,
+        "ItemType": "Quest"
+    },
+    {
+        "Id": "ancient_key",
+        "Name": "Древний ключ",
+        "Description": "Необходим для активации врат в сектор Зета.",
+        "Weight": 1.0,
+        "BasePrice": 0,
+        "ItemType": "Quest"
+    }
+]

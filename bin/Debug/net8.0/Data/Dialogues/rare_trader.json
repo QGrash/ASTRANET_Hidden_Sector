@@ -1,0 +1,72 @@
+﻿{
+    "Id": "rare_trader",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "У меня есть кое-что особенное. Слышал, вы ищете фрагменты координат Зета?",
+            "Choices": [
+                {
+                    "Text": "Да, есть один?",
+                    "NextNodeId": "sell_fragment",
+                    "Conditions": [
+                        {
+                            "Type": "HasCredits",
+                            "Value": 2000
+                        }
+                    ]
+                },
+                {
+                    "Text": "Покажи товары.",
+                    "NextNodeId": "shop",
+                    "Actions": [
+                        {
+                            "Type": "OpenShop",
+                            "TargetId": "rare_trader_shop"
+                        }
+                    ]
+                }
+            ]
+        },
+        "sell_fragment": {
+            "Id": "sell_fragment",
+            "NpcText": "Да, один фрагмент у меня есть. Отдам за 2000 кредитов.",
+            "Choices": [
+                {
+                    "Text": "Беру!",
+                    "NextNodeId": "bye",
+                    "Actions": [
+                        {
+                            "Type": "RemoveCredits",
+                            "Amount": 2000
+                        },
+                        {
+                            "Type": "AddItem",
+                            "TargetId": "fragment_coord_zeta",
+                            "Amount": 1
+                        }
+                    ]
+                },
+                {
+                    "Text": "Дороговато.",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "shop": {
+            "Id": "shop",
+            "NpcText": "Выбирай.",
+            "Choices": [
+                {
+                    "Text": "Вернуться",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Удачной охоты.",
+            "Choices": []
+        }
+    }
+}

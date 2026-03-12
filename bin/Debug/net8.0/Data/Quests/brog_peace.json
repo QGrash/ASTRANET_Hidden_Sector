@@ -1,0 +1,27 @@
+﻿{
+    "Id": "brog_peace",
+    "Name": "Перемирие с Брог",
+    "Description": "Помогите кочевникам Брог решить их проблему с культом Бездны, чтобы улучшить отношения.",
+    "Objectives": [
+        {
+            "Type": "Kill",
+            "TargetId": "cult_ship",
+            "Amount": 3,
+            "Description": "Уничтожить корабли культа Бездны"
+        },
+        {
+            "Type": "Talk",
+            "TargetId": "brog_chief",
+            "Amount": 1,
+            "Description": "Поговорить с вождём Брог"
+        }
+    ],
+    "Rewards": {
+        "Credits": 800,
+        "Experience": 150,
+        "Reputation": {
+            "BrogNomads": 40
+        },
+        "Items": [ "fuel_cell", "fuel_cell" ]
+    }
+}

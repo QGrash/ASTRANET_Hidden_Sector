@@ -1,0 +1,66 @@
+﻿{
+    "Id": "rescue_neutral",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Сигнал SOS? Я могу помочь, но это будет стоить кредитов.",
+            "Choices": [
+                {
+                    "Text": "Сколько стоит топливо?",
+                    "NextNodeId": "price_fuel",
+                    "Conditions": [
+                        {
+                            "Type": "HasCredits",
+                            "Value": 200
+                        }
+                    ]
+                },
+                {
+                    "Text": "Мне нечем платить.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "price_fuel": {
+            "Id": "price_fuel",
+            "NpcText": "Одна топливная ячейка за 200 кредитов. Берёте?",
+            "Choices": [
+                {
+                    "Text": "Да, одну.",
+                    "NextNodeId": "buy_fuel",
+                    "Actions": [
+                        {
+                            "Type": "RemoveCredits",
+                            "Amount": 200
+                        },
+                        {
+                            "Type": "AddItem",
+                            "TargetId": "fuel_cell",
+                            "Amount": 1
+                        }
+                    ]
+                },
+                {
+                    "Text": "Нет, дорого.",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "buy_fuel": {
+            "Id": "buy_fuel",
+            "NpcText": "Отлично. Удачного плавания!",
+            "Choices": [
+                {
+                    "Text": "До свидания.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Бывайте.",
+            "Choices": []
+        }
+    }
+}

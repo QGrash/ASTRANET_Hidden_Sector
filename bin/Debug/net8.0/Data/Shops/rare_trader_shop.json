@@ -1,0 +1,27 @@
+﻿{
+    "Id": "rare_trader_shop",
+    "Name": "Лавка редкостей",
+    "Faction": "MegaTransen",
+    "Items": [
+        {
+            "ItemId": "alien_artifact",
+            "PriceModifier": 1.5,
+            "Quantity": 1
+        },
+        {
+            "ItemId": "tech_parts",
+            "PriceModifier": 1.2,
+            "Quantity": 3
+        },
+        {
+            "ItemId": "plasma_cannon",
+            "PriceModifier": 1.3,
+            "Quantity": 1
+        },
+        {
+            "ItemId": "medkit_advanced",
+            "PriceModifier": 1.0,
+            "Quantity": 2
+        }
+    ]
+}

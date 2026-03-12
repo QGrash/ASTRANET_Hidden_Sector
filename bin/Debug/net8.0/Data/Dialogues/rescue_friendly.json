@@ -1,0 +1,63 @@
+﻿{
+    "Id": "rescue_friendly",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Мы получили ваш сигнал бедствия! Чем можем помочь?",
+            "Choices": [
+                {
+                    "Text": "Мне нужно топливо.",
+                    "NextNodeId": "fuel",
+                    "Actions": [
+                        {
+                            "Type": "AddItem",
+                            "TargetId": "fuel_cell",
+                            "Amount": 2
+                        }
+                    ]
+                },
+                {
+                    "Text": "Есть ли у вас аптечки?",
+                    "NextNodeId": "meds",
+                    "Actions": [
+                        {
+                            "Type": "AddItem",
+                            "TargetId": "medkit_basic",
+                            "Amount": 2
+                        }
+                    ]
+                },
+                {
+                    "Text": "Спасибо, помощь не требуется.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "fuel": {
+            "Id": "fuel",
+            "NpcText": "Держите топливо. Будьте осторожны!",
+            "Choices": [
+                {
+                    "Text": "Благодарю.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "meds": {
+            "Id": "meds",
+            "NpcText": "Вот медицинские наборы. Удачи!",
+            "Choices": [
+                {
+                    "Text": "Спасибо.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Счастливого пути!",
+            "Choices": []
+        }
+    }
+}

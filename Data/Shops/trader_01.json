@@ -1,0 +1,27 @@
+﻿{
+    "Id": "trader_01",
+    "Name": "Лавка торговца",
+    "Faction": "SolarFederation",
+    "Items": [
+        {
+            "ItemId": "medkit_basic",
+            "PriceModifier": 1.2,
+            "Quantity": 5
+        },
+        {
+            "ItemId": "laser_pistol",
+            "PriceModifier": 1.0,
+            "Quantity": 1
+        },
+        {
+            "ItemId": "armor_light",
+            "PriceModifier": 1.1,
+            "Quantity": 2
+        },
+        {
+            "ItemId": "fuel_cell",
+            "PriceModifier": 0.9,
+            "Quantity": -1
+        }
+    ]
+}

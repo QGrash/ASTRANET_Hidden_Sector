@@ -1,0 +1,88 @@
+{
+  "Version": "1.0",
+  "Timestamp": "2026-03-12T05:59:47.7772166+04:00",
+  "GalaxySeed": 12345,
+  "Player": {
+    "Strength": 10,
+    "Dexterity": 10,
+    "Intelligence": 10,
+    "Luck": 11,
+    "Charisma": 12,
+    "Class": 2,
+    "Health": 80,
+    "MaxHealth": 100,
+    "Hull": 100,
+    "MaxHull": 100,
+    "Shields": 50,
+    "MaxShields": 50,
+    "Energy": 100,
+    "MaxEnergy": 100,
+    "Fuel": 0,
+    "MaxFuel": 200,
+    "Level": 1,
+    "Experience": 0,
+    "NextLevelExp": 100,
+    "Credits": 1000,
+    "TechPoints": 0,
+    "Inventory": [
+      {
+        "PrototypeId": "laser_pistol",
+        "Quantity": 1,
+        "CurrentDurability": -1
+      },
+      {
+        "PrototypeId": "medkit_basic",
+        "Quantity": 3,
+        "CurrentDurability": -1
+      },
+      {
+        "PrototypeId": "energy_cell",
+        "Quantity": 2,
+        "CurrentDurability": -1
+      }
+    ],
+    "Head": null,
+    "Torso": null,
+    "Body": null,
+    "Hands": null,
+    "Legs": null,
+    "Weapon": "laser_pistol",
+    "Neck": null,
+    "Belt": [],
+    "InstalledModules": []
+  },
+  "World": {
+    "VisitedSystems": [
+      0,
+      1
+    ],
+    "RevealedHiddenSystems": []
+  },
+  "Quests": {
+    "ActiveQuests": [
+      {
+        "PrototypeId": "kill_pirates",
+        "State": 1,
+        "ObjectiveProgress": [
+          0
+        ]
+      }
+    ],
+    "CompletedQuests": []
+  },
+  "Reputation": {
+    "Values": {
+      "SolarFederation": 0,
+      "PyroThetaEmpire": -20,
+      "AquaTarrissRepublic": 10,
+      "BrogNomads": -30,
+      "GreenCrossFoundation": 100,
+      "MercArmory": 0,
+      "CultOfVoid": -50,
+      "TarrshakAqua": 5,
+      "MegaTransen": 0,
+      "CrimsonVoyagers": -100,
+      "VoidDragons": -40
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Id": "energy_cell",
+  "Name": "Энергоячейка",
+  "Description": "Восстанавливает 30 энергии корабля.",
+  "Weight": 0.5,
+  "BasePrice": 60,
+  "ItemType": "consumable",
+  "Effects": {
+    "ship_energy": 30
+  }
+}

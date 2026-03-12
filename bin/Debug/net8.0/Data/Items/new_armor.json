@@ -1,0 +1,23 @@
+﻿[
+    {
+        "Id": "armor_combat",
+        "Name": "Боевая броня",
+        "Description": "Усиленная броня для наземных операций.",
+        "Weight": 8.0,
+        "BasePrice": 600,
+        "ItemType": "Equipment",
+        "Slot": "Torso",
+        "Defense": 30
+    },
+    {
+        "Id": "helmet_assault",
+        "Name": "Шлем штурмовика",
+        "Description": "Оснащён прицелом и тактическим интерфейсом.",
+        "Weight": 1.5,
+        "BasePrice": 250,
+        "ItemType": "Equipment",
+        "Slot": "Head",
+        "Defense": 12,
+        "Accuracy": 5
+    }
+]

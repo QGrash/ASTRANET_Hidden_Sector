@@ -1,0 +1,58 @@
+﻿[
+    {
+        "Id": "medkit_basic",
+        "Name": "Медицинский набор",
+        "Description": "Восстанавливает 30 HP.",
+        "Weight": 0.1,
+        "BasePrice": 50,
+        "ItemType": "Consumable",
+        "Effects": {
+            "heal": 30
+        }
+    },
+    {
+        "Id": "medkit_advanced",
+        "Name": "Продвинутый медкомплект",
+        "Description": "Восстанавливает 60 HP и лечит радиацию.",
+        "Weight": 0.2,
+        "BasePrice": 120,
+        "ItemType": "Consumable",
+        "Effects": {
+            "heal": 60,
+            "cure_radiation": 1
+        }
+    },
+    {
+        "Id": "stim_basic",
+        "Name": "Стимулятор",
+        "Description": "Временно повышает рефлексы (+5% уклонения на 1 ход).",
+        "Weight": 0.1,
+        "BasePrice": 40,
+        "ItemType": "Consumable",
+        "Effects": {
+            "evasion_bonus": 5
+        }
+    },
+    {
+        "Id": "repair_kit",
+        "Name": "Ремкомплект",
+        "Description": "Восстанавливает 25 HP корпуса корабля.",
+        "Weight": 2.0,
+        "BasePrice": 120,
+        "ItemType": "Consumable",
+        "Effects": {
+            "repair_hull": 25
+        }
+    },
+    {
+        "Id": "energy_cell",
+        "Name": "Энергоячейка",
+        "Description": "Восстанавливает 30 энергии корабля.",
+        "Weight": 0.5,
+        "BasePrice": 60,
+        "ItemType": "Consumable",
+        "Effects": {
+            "restore_energy": 30
+        }
+    }
+]

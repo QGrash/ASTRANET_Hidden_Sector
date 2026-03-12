@@ -1,0 +1,39 @@
+﻿{
+    "Id": "ancient_dreadnought",
+    "Name": "Древний дредноут",
+    "Faction": "CultOfVoid",
+    "Hull": 500,
+    "MaxHull": 500,
+    "Shields": 300,
+    "MaxShields": 300,
+    "Energy": 200,
+    "MaxEnergy": 200,
+    "Accuracy": 10,
+    "Evasion": 5,
+    "Weapons": [
+        {
+            "Id": "ancient_plasma",
+            "Name": "Древняя плазма",
+            "DamageType": "Plasma",
+            "MinDamage": 40,
+            "MaxDamage": 60,
+            "Accuracy": 5,
+            "EnergyCost": 30,
+            "ShotsPerTurn": 2,
+            "CritChance": 0.2,
+            "CritMultiplier": 2.0
+        },
+        {
+            "Id": "ancient_ion",
+            "Name": "Ионный луч",
+            "DamageType": "Ion",
+            "MinDamage": 15,
+            "MaxDamage": 25,
+            "Accuracy": 15,
+            "EnergyCost": 15,
+            "ShotsPerTurn": 1,
+            "CritChance": 0.1,
+            "CritMultiplier": 1.5
+        }
+    ]
+}

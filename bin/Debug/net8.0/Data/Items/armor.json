@@ -1,0 +1,82 @@
+﻿[
+    {
+        "Id": "armor_light",
+        "Name": "Лёгкая броня",
+        "Description": "Обеспечивает базовую защиту, не сковывает движений.",
+        "Weight": 3.0,
+        "BasePrice": 150,
+        "ItemType": "Equipment",
+        "Slot": "Torso",
+        "Defense": 10
+    },
+    {
+        "Id": "armor_medium",
+        "Name": "Средняя броня",
+        "Description": "Сбалансированная защита для полевых операций.",
+        "Weight": 6.0,
+        "BasePrice": 300,
+        "ItemType": "Equipment",
+        "Slot": "Torso",
+        "Defense": 20
+    },
+    {
+        "Id": "armor_heavy",
+        "Name": "Тяжёлая броня",
+        "Description": "Максимальная защита, но снижает подвижность.",
+        "Weight": 10.0,
+        "BasePrice": 500,
+        "ItemType": "Equipment",
+        "Slot": "Torso",
+        "Defense": 35
+    },
+    {
+        "Id": "armor_federation",
+        "Name": "Броня «Федерация»",
+        "Description": "Церемониальная броня офицеров флота, добавляет авторитета.",
+        "Weight": 6.5,
+        "BasePrice": 350,
+        "ItemType": "Equipment",
+        "Slot": "Torso",
+        "Defense": 22
+    },
+    {
+        "Id": "helmet_light",
+        "Name": "Лёгкий шлем",
+        "Description": "Защищает голову, не мешает обзору.",
+        "Weight": 0.5,
+        "BasePrice": 50,
+        "ItemType": "Equipment",
+        "Slot": "Head",
+        "Defense": 5
+    },
+    {
+        "Id": "helmet_medium",
+        "Name": "Средний шлем",
+        "Description": "Усиленная защита с тактическим нашлемником.",
+        "Weight": 1.0,
+        "BasePrice": 100,
+        "ItemType": "Equipment",
+        "Slot": "Head",
+        "Defense": 10
+    },
+    {
+        "Id": "helmet_heavy",
+        "Name": "Тяжёлый шлем",
+        "Description": "Полная защита головы, немного ограничивает обзор.",
+        "Weight": 2.0,
+        "BasePrice": 150,
+        "ItemType": "Equipment",
+        "Slot": "Head",
+        "Defense": 15
+    },
+    {
+        "Id": "helmet_commander",
+        "Name": "Командирский шлем",
+        "Description": "Оснащён тактическим компьютером, повышает интеллект.",
+        "Weight": 1.2,
+        "BasePrice": 200,
+        "ItemType": "Equipment",
+        "Slot": "Head",
+        "Defense": 8
+    }
+]

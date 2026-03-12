@@ -1,0 +1,41 @@
+﻿{
+    "Id": "trader_greeting",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Приветствую, капитан. Желаете взглянуть на мои товары?",
+            "Choices": [
+                {
+                    "Text": "Да, покажи что у тебя есть.",
+                    "NextNodeId": "trade",
+                    "Actions": [
+                        {
+                            "Type": "OpenShop",
+                            "TargetId": "trader_01"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Нет, спасибо. Мне нужно идти.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "trade": {
+            "Id": "trade",
+            "NpcText": "Смотри, выбирай. [магазин]",
+            "Choices": [
+                {
+                    "Text": "Вернуться",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Удачного плавания!",
+            "Choices": []
+        }
+    }
+}

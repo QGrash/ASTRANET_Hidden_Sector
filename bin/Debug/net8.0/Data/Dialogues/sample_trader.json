@@ -1,0 +1,40 @@
+{
+  "Id": "sample_trader",
+  "StartNodeId": "start",
+  "Nodes": {
+    "start": {
+      "Id": "start",
+      "NpcText": "Привет, путник. Хочешь посмотреть товары?",
+      "Choices": [
+        {
+          "Text": "Да, покажи что есть.",
+          "NextNodeId": "trade",
+          "Conditions": [],
+          "Actions": [
+            {
+              "Type": 14,
+              "TargetId": "trader_01",
+              "Amount": 0
+            }
+          ]
+        },
+        {
+          "Text": "Нет, спасибо.",
+          "NextNodeId": "bye",
+          "Conditions": [],
+          "Actions": []
+        }
+      ]
+    },
+    "bye": {
+      "Id": "bye",
+      "NpcText": "Возвращайся, если передумаешь.",
+      "Choices": []
+    },
+    "trade": {
+      "Id": "trade",
+      "NpcText": "Смотри, что у меня есть.",
+      "Choices": []
+    }
+  }
+}

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "pyrotech_shop",
+    "Name": "Имперский арсенал",
+    "Faction": "PyroThetaEmpire",
+    "Items": [
+        {
+            "ItemId": "plasma_rifle",
+            "PriceModifier": 1.5,
+            "Quantity": 1
+        },
+        {
+            "ItemId": "shield_std",
+            "PriceModifier": 1.2,
+            "Quantity": 2
+        },
+        {
+            "ItemId": "energy_cell",
+            "PriceModifier": 1.0,
+            "Quantity": -1
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+﻿{
+    "Id": "station_enter",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Добро пожаловать на станцию. Что желаете?",
+            "Choices": [
+                {
+                    "Text": "Хочу пройти внутрь и осмотреться.",
+                    "NextNodeId": "enter",
+                    "Actions": [
+                        {
+                            "Type": "EnterInterior",
+                            "TargetId": "",
+                            "Amount": 0
+                        }
+                    ]
+                },
+                {
+                    "Text": "Есть ли у вас товары?",
+                    "NextNodeId": "shop",
+                    "Actions": [
+                        {
+                            "Type": "OpenShop",
+                            "TargetId": "trader_01",
+                            "Amount": 0
+                        }
+                    ]
+                },
+                {
+                    "Text": "Мне ничего не нужно.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "shop": {
+            "Id": "shop",
+            "NpcText": "Смотрите, выбирайте.",
+            "Choices": [
+                {
+                    "Text": "Вернуться",
+                    "NextNodeId": "start"
+                }
+            ]
+        },
+        "enter": {
+            "Id": "enter",
+            "NpcText": "Хорошо, проходите. (Вы входите внутрь станции...)",
+            "Choices": []
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Удачного дня.",
+            "Choices": []
+        }
+    }
+}

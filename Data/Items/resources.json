@@ -1,0 +1,42 @@
+﻿[
+    {
+        "Id": "fuel_cell",
+        "Name": "Топливная ячейка",
+        "Description": "Стандартный блок топлива для прыжков.",
+        "Weight": 10.0,
+        "BasePrice": 50,
+        "ItemType": "Resource"
+    },
+    {
+        "Id": "metal_alloy",
+        "Name": "Сплав металла",
+        "Description": "Используется для ремонта и крафта.",
+        "Weight": 5.0,
+        "BasePrice": 30,
+        "ItemType": "Resource"
+    },
+    {
+        "Id": "rare_earth",
+        "Name": "Редкоземельные элементы",
+        "Description": "Необходимы для улучшения модулей.",
+        "Weight": 2.0,
+        "BasePrice": 150,
+        "ItemType": "Resource"
+    },
+    {
+        "Id": "electronic_parts",
+        "Name": "Электронные компоненты",
+        "Description": "Для ремонта и крафта.",
+        "Weight": 1.0,
+        "BasePrice": 80,
+        "ItemType": "Resource"
+    },
+    {
+        "Id": "food_ration",
+        "Name": "Пайка",
+        "Description": "Стандартный пищевой рацион.",
+        "Weight": 0.5,
+        "BasePrice": 10,
+        "ItemType": "Resource"
+    }
+]

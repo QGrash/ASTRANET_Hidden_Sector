@@ -1,0 +1,79 @@
+﻿[
+    {
+        "Id": "uniform_flight",
+        "Name": "Полётная форма",
+        "Description": "Стандартная униформа пилотов.",
+        "Weight": 0.5,
+        "BasePrice": 30,
+        "ItemType": "Equipment",
+        "Slot": "Body",
+        "Defense": 2
+    },
+    {
+        "Id": "uniform_tactical",
+        "Name": "Тактическая форма",
+        "Description": "Усиленная форма с встроенными датчиками.",
+        "Weight": 1.0,
+        "BasePrice": 80,
+        "ItemType": "Equipment",
+        "Slot": "Body",
+        "Defense": 5
+    },
+    {
+        "Id": "gloves_tactical",
+        "Name": "Тактические перчатки",
+        "Description": "Повышают точность стрельбы.",
+        "Weight": 0.3,
+        "BasePrice": 20,
+        "ItemType": "Equipment",
+        "Slot": "Hands",
+        "Defense": 2
+    },
+    {
+        "Id": "boots_combat",
+        "Name": "Боевые ботинки",
+        "Description": "Устойчивая подошва, немного повышают уклонение.",
+        "Weight": 1.0,
+        "BasePrice": 40,
+        "ItemType": "Equipment",
+        "Slot": "Legs",
+        "Defense": 3
+    },
+    {
+        "Id": "boots_stealth",
+        "Name": "Ботинки скрытности",
+        "Description": "Позволяют двигаться бесшумно.",
+        "Weight": 0.8,
+        "BasePrice": 60,
+        "ItemType": "Equipment",
+        "Slot": "Legs",
+        "Defense": 1
+    },
+    {
+        "Id": "amulet_luck",
+        "Name": "Амулет удачи",
+        "Description": "Приносит удачу владельцу.",
+        "Weight": 0.1,
+        "BasePrice": 150,
+        "ItemType": "Equipment",
+        "Slot": "Neck"
+    },
+    {
+        "Id": "medallion_federation",
+        "Name": "Медаль Федерации",
+        "Description": "Почётная награда, повышает харизму.",
+        "Weight": 0.1,
+        "BasePrice": 200,
+        "ItemType": "Equipment",
+        "Slot": "Neck"
+    },
+    {
+        "Id": "scarf_pilot",
+        "Name": "Шарф пилота",
+        "Description": "Стильный аксессуар, слегка повышает ловкость.",
+        "Weight": 0.1,
+        "BasePrice": 80,
+        "ItemType": "Equipment",
+        "Slot": "Neck"
+    }
+]

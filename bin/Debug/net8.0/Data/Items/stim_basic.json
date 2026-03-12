@@ -1,0 +1,11 @@
+{
+  "Id": "stim_basic",
+  "Name": "Стимулятор",
+  "Description": "Временно повышает рефлексы.",
+  "Weight": 0.1,
+  "BasePrice": 40,
+  "ItemType": "consumable",
+  "Effects": {
+    "evasion": 5
+  }
+}

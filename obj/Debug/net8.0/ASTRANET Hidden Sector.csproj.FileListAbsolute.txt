@@ -1,0 +1,45 @@
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\ASTRANET Hidden Sector.exe
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\ASTRANET Hidden Sector.deps.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\ASTRANET Hidden Sector.runtimeconfig.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\ASTRANET Hidden Sector.dll
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\ASTRANET Hidden Sector.pdb
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.AssemblyInfoInputs.cache
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.AssemblyInfo.cs
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.dll
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\refint\ASTRANET Hidden Sector.dll
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.pdb
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.genruntimeconfig.cache
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ref\ASTRANET Hidden Sector.dll
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET Hidden Sector.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\obj\Debug\net8.0\ASTRANET.73E596AC.Up2Date
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\trader_greeting.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Quests\kill_pirates.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Shops\pyrotech_shop.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Shops\trader_01.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\brog_scout.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\federation_officer.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\pyrotech_engineer.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\armor.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\clothing.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\consumables.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\quest_items.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\resources.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\ship_modules.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\weapons.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Quests\brog_peace.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Quests\find_artifact.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Quests\zeta_secret.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\station_enter.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\rare_trader.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\scientist.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Enemies\ancient_dreadnought.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\new_armor.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\new_consumables.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\new_resources.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Items\new_weapons.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Shops\rare_trader_shop.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\rescue_friendly.json
+C:\Users\kotov\OneDrive\Desktop\pet projects\ASTRANET dev\ASTRANET Hidden Sector\bin\Debug\net8.0\Data\Dialogues\rescue_neutral.json

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7XvUOnFnjs8=",
+  "dgSpecHash": "GpPdKXxrFkI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET\\ASTRANET_Hidden_Sector.csproj",
+  "projectFilePath": "C:\\Users\\kotov\\OneDrive\\Desktop\\pet projects\\ASTRANET dev\\ASTRANET Hidden Sector\\ASTRANET Hidden Sector.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kotov\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
   ],

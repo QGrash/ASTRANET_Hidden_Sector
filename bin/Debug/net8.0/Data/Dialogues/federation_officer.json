@@ -1,0 +1,65 @@
+﻿{
+    "Id": "federation_officer",
+    "StartNodeId": "start",
+    "Nodes": {
+        "start": {
+            "Id": "start",
+            "NpcText": "Капитан, рад вас видеть. У нас есть проблема: пираты участили нападения в секторе Альфа. Не могли бы вы помочь?",
+            "Choices": [
+                {
+                    "Text": "Расскажите подробнее.",
+                    "NextNodeId": "details"
+                },
+                {
+                    "Text": "Я слишком занят.",
+                    "NextNodeId": "busy"
+                }
+            ]
+        },
+        "details": {
+            "Id": "details",
+            "NpcText": "Пиратский корабль «Кровавый рассвет» терроризирует торговцев. Если вы уничтожите его, мы щедро наградим вас.",
+            "Choices": [
+                {
+                    "Text": "Я согласен. Дайте квест.",
+                    "NextNodeId": "accept",
+                    "Actions": [
+                        {
+                            "Type": "StartQuest",
+                            "TargetId": "kill_pirates"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Нет, это слишком опасно.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "accept": {
+            "Id": "accept",
+            "NpcText": "Отлично! Корабль находится в системе Альфа. Удачи, капитан.",
+            "Choices": [
+                {
+                    "Text": "Буду на связи.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "busy": {
+            "Id": "busy",
+            "NpcText": "Понимаю. Если передумаете, обращайтесь.",
+            "Choices": [
+                {
+                    "Text": "До свидания.",
+                    "NextNodeId": "bye"
+                }
+            ]
+        },
+        "bye": {
+            "Id": "bye",
+            "NpcText": "Честь имею.",
+            "Choices": []
+        }
+    }
+}
